@@ -1,0 +1,25 @@
+<app-toolbar>Expense Claims
+    <span class="spacer"></span>
+    <a mat-flat-button color=primary [routerLink]="['/claims/add']">
+        <mat-icon>add</mat-icon> New
+    </a>
+</app-toolbar>
+
+<mat-list>
+    <mat-divider></mat-divider>
+    <mat-list-item *ngFor="let claim of ls.claims()">
+        <span matListItemTitle fxLayout fxLayoutAlign="space-between center">
+            <span>{{claim.name}}</span>
+            <span>£{{claim.amount}}</span>
+            <span>{{claim.state}}</span>
+        </span>
+        <span matListItemLine> {{claim.description}}</span>
+
+        <!--  <span matListItemLine> {{claim.date | date:'mediumDate'}}</span> -->
+
+        <button mat-icon-button matListItemMeta color="primary" (click)="edit(claim)">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <mat-divider></mat-divider>
+    </mat-list-item>
+</mat-list>

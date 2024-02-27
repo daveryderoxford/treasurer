@@ -1,0 +1,94 @@
+<!-- Put form in middle of page -->
+<div fxLayout="row" fxLayoutAlign="center space-around">
+
+    <!-- layout elements vertically with  10px gaps-->
+    <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
+
+        <mat-card appearance="outlined">
+
+            <form (ngSubmit)="submit()" [formGroup]="form" novalidate fxLayout="column" fxLayoutAlign="space-around"
+                fxLayoutGap=10px>
+
+                <mat-form-field>
+                    <mat-label>Requested By</mat-label>
+                    <input matInput required formControlName="name">
+                    <mat-error>Name required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput required formControlName="email">
+                    <mat-error>Email required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Amount</mat-label>
+                    <input matInput required formControlName="amount" placeholder="0.00">
+                    <mat-error>Valid amount in pounds and pence is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Description of expenditure</mat-label>
+                    <input matInput required formControlName="description">
+                    <mat-error>Description required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>State</mat-label>
+
+                    <mat-select formControlName="state">
+                        <mat-option *ngFor="let state of claimStates;" [value]="state">
+                            {{ state }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div class="indented">
+                    @if (!claim()) {
+                    <app-upload-button (uploaded)="attachmentUploaded($event)"></app-upload-button>
+                    } @else {
+                    Attachments
+                    }
+
+                    <app-upload-list [files]="attachments" [canDelete]="!claim()"
+                        (deleted)="attachmentDeleted($event)"></app-upload-list>
+                </div>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Bank account details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <mat-form-field>
+                        <input matInput formControlName="bankAccountHolder" placeholder="Bank Account holder">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Bank Account number</mat-label>
+                        <input matInput formControlName="bankAccountNo" placeholder="00000000">
+                        <mat-error>Bank account number invalid</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Bank sort code</mat-label>
+                        <input matInput formControlName="bankSortCode" placeholder="00-00-00">
+                        <mat-error>Bank sort code invalid</mat-error>
+                    </mat-form-field>
+
+                </mat-expansion-panel>
+
+
+
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <button [disabled]="form.invalid || !form.dirty" mat-raised-button color=primary type="submit"
+                        aria-label="submit">Save</button>
+                </div>
+
+            </form>
+        </mat-card>
+
+    </div>
+
+</div>

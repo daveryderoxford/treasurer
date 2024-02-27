@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "treasurer-334d9": {
+      "hosting": {
+        "treasurer": [
+          "treasurer-334d9"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "treasurer-334d9"
+  }
+}

@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx; 
+
+$theme: matx.define-theme((
+  color: (
+    theme-type: light,
+    primary: matx.$m3-violet-palette,
+  ),
+  density: (
+    scale: -1
+  )
+));
+
+//  Common colors
+$gray-background-color: rgb(209,209,209) !default;
+$gray-text-color: rgb(100,100,100);
+$text-link-color: rgb(20, 20,18000);
+$error-color: red;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

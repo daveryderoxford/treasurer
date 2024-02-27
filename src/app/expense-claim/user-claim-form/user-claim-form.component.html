@@ -1,0 +1,45 @@
+<!-- Put form in middle of page -->
+<div fxLayout="row" fxLayoutAlign="center space-around">
+
+    <!-- layout elements vertically with  10px gaps-->
+    <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
+
+        <mat-card appearance="outlined">
+
+            <form (ngSubmit)="submit()" [formGroup]="form" novalidate fxLayout="column" fxLayoutAlign="space-around"
+                fxLayoutGap=10px>
+
+                <mat-form-field>
+                    <mat-label>Amount</mat-label>
+                    <input matInput required formControlName="amount" placeholder="0.00">
+                    <mat-error>Valid amount in pounds and pence is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Description of expenditure</mat-label>
+                    <input matInput required formControlName="description">
+                    <mat-error>Description required</mat-error>
+                </mat-form-field>
+
+                <div class="indented">
+                    @if (!claim()) {
+                    <app-upload-button (uploaded)="attachmentUploaded($event)"></app-upload-button>
+                    } @else {
+                    Attachments
+                    }
+
+                    <app-upload-list [files]="attachments" [canDelete]="!claim()"
+                        (deleted)="attachmentDeleted($event)"></app-upload-list>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <button [disabled]="form.invalid || !form.dirty" mat-raised-button color=primary type="submit"
+                        aria-label="submit">Save</button>
+                </div>
+
+            </form>
+        </mat-card>
+
+    </div>
+
+</div>

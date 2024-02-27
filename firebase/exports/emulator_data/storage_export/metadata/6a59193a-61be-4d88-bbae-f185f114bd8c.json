@@ -1,0 +1,19 @@
+{
+  "name": "uk",
+  "bucket": "ofixtures-2a7d5.appspot.com",
+  "metageneration": 1,
+  "generation": 1701962013470,
+  "contentType": "application/octet-stream",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "fd89af1b-5e7f-46ae-92be-ae2d5dd82f5f"
+  ],
+  "etag": "xPlnULh/kUO6EAMl4QbdpQj/ztI",
+  "customMetadata": {},
+  "timeCreated": "2023-12-07T15:13:33.470Z",
+  "updated": "2023-12-07T15:13:33.470Z",
+  "size": 737132,
+  "md5Hash": "2a817VLoUgskMAZq17Kz9A==",
+  "crc32c": "3209345820"
+}

@@ -1,0 +1,51 @@
+<app-toolbar>User details</app-toolbar>
+
+<!-- Put form in middle of page -->
+<div fxLayout="row" fxLayoutAlign="center space-around">
+
+  <!-- layout elements vertically with  10px gaps-->
+  <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
+
+    <mat-card [class]=cardclass>
+
+      <form (ngSubmit)="save()" novalidate fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap=10px
+        [formGroup]="userForm">
+
+        <mat-progress-bar *ngIf="showProgressBar" mode="query"> </mat-progress-bar>
+
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput required formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput required formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Bank account holder</mat-label>
+          <input matInput required formControlName="bankAccountHolder">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Bank account number</mat-label>
+          <input matInput required formControlName="bankAccountNo">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Bank account sort code</mat-label>
+          <input matInput required formControlName="bankSortCode">
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <button [disabled]="userForm.invalid || !userForm.dirty" mat-raised-button color=primary type="submit"
+            aria-label="login">Save</button>
+        </div>
+
+      </form>
+    </mat-card>
+
+  </div>
+
+</div>

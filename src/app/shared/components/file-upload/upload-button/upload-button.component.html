@@ -1,0 +1,13 @@
+<div>
+
+  <button mat-stroked-button type=button [disabled]=busy (click)="fileInput.click()">
+    Add attachments
+  </button>
+  @if (busy) {
+     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
+  <!-- hidden inpit used for the actual upload -->
+  <input hidden="true," type="file" multiple #fileInput (change)="upload($event)" />
+</div>
+

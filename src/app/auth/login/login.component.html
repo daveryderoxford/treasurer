@@ -1,0 +1,51 @@
+<mat-toolbar color="primary">IBRSC Expenses - Login</mat-toolbar>
+
+<div fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
+
+    <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
+
+        <div class=error>{{error}}</div>
+
+        <mat-card>
+
+            <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
+
+                <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()">
+
+                    <div fxLayout="column" fxFlexFill fxLayoutAlign="center" fxLayoutGap=10px>
+
+                        <mat-form-field>
+                            <input matInput formControlName="email" type="email" placeholder="Email" autocomplete="on">
+                            <mat-error>Invalid email</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput formControlName="password" type="password" placeholder="Password" autocomplete="on">
+                            <mat-error>Password required</mat-error>
+                        </mat-form-field>
+
+                        <div fxLayout="row" fxLayoutAlign="center">
+                            <button mat-raised-button color=primary type="submit" aria-label="login">Sign In</button>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="space-between">
+                            <a mat-button routerLink='/auth/recover'>Forgot password?</a>
+                            <a mat-button routerLink='/auth/signup'>Create account?</a>
+                        </div>
+
+                    </div>
+
+                </form>
+
+                <div class=horizontal_rule></div>
+                <h6>OR LOGIN USING</h6>
+
+                <button mat-raised-button color=primary (click)="signInWith('Google')" fxFlexAlign="stretch">Google</button>
+                <button mat-raised-button color=primary (click)="signInWith('Facebook')" fxFlexAlign="stretch">Facebook</button>
+            </div>
+
+        </mat-card>
+
+    </div>
+
+</div>
