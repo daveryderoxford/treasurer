@@ -13,8 +13,6 @@ export class UserDataService {
 
   user: Signal<UserData | null | undefined>;
 
-  private uid: string | null = '';
-
   constructor(
     private auth: Auth,
     private fs: Firestore,
@@ -51,6 +49,6 @@ export class UserDataService {
    * The user must be logged in to use this function.
    */
   private _getUserDoc(): DocumentReference<UserData> {
-    return this._doc(this.uid!);
+    return this._doc(this.user()?.id!);
   }
 }

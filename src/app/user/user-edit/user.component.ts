@@ -28,7 +28,6 @@ import { UserData } from "../user.model";
   imports: [ToolbarComponent, FlexModule, MatCardModule, ReactiveFormsModule, NgIf, MatProgressBarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, NgStyle, ExtendedModule, NgFor, MatSelectModule, MatOptionModule]
 })
 export class UserComponent implements OnInit {
-  originalUserData: UserData | null | undefined = null;
 
   /*  private bankACReg = '/^[0-9]{9,18}$/';
     private sortCodeReg = '/^(\d){2}-(\d){2}-(\d){2}$/'; */
