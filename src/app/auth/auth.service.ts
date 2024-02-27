@@ -13,7 +13,6 @@ import { Auth, User, authState } from '@angular/fire/auth';
     constructor( private auth: Auth) {
 
         this.user = toSignal( authState(auth) );
-        
     }
   }
 

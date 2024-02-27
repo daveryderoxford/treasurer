@@ -38,7 +38,7 @@ export class ClaimAddComponent {
       bankSortCode: userData.bankSortCode,
       amount: 0,
       state: 'Submitted',
-      notes: '',
+      reason: '',
       description: '',
       dateSubmitted: new Date(),
     }

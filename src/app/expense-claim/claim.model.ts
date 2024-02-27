@@ -21,6 +21,6 @@ export interface Claim {
     bankAccountNo: number;
     bankSortCode: string;
     description: string;
-    notes?: string;
+    reason?: string;
 }
 

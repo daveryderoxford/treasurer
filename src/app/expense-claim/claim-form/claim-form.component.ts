@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component, EventEmitter, Output, effect, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +18,7 @@ import { Claim, claimStates } from '../claim.model';
 @Component({
   selector: 'app-claim-form',
   standalone: true,
-  imports: [UploadListComponent, UploadButtonComponent,ToolbarComponent, MatExpansionModule, MatOptionModule,FlexModule, MatOptionModule, MatOptionModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, NgFor, MatOptionModule, MatButtonModule],
+  imports: [FlexModule, UploadListComponent, UploadButtonComponent,ToolbarComponent, MatExpansionModule, MatOptionModule,FlexModule, MatOptionModule, MatOptionModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatOptionModule, MatButtonModule],
   templateUrl: './claim-form.component.html',
   styleUrl: './claim-form.component.scss'
 })

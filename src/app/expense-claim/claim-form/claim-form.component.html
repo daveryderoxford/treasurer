@@ -37,9 +37,11 @@
                     <mat-label>State</mat-label>
 
                     <mat-select formControlName="state">
-                        <mat-option *ngFor="let state of claimStates;" [value]="state">
+                        @for (state of claimStates; track claimStates) {
+                        <mat-option [value]="state">
                             {{ state }}
                         </mat-option>
+                        }
                     </mat-select>
                 </mat-form-field>
 
@@ -78,8 +80,6 @@
                     </mat-form-field>
 
                 </mat-expansion-panel>
-
-
 
                 <div fxLayout="row" fxLayoutAlign="space-between center">
                     <button [disabled]="form.invalid || !form.dirty" mat-raised-button color=primary type="submit"
