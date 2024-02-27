@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, sendPasswordResetEmail } from '@angular/fire/auth';
-import { Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
-import { Router, RouterLink } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatToolbar } from '@angular/material/toolbar';
+import { Router, RouterLink } from '@angular/router';
 import { FlexModule } from '@ngbracket/ngx-layout/flex';
-import { ToolbarComponent } from '../../shared/components/toolbar.component';
 
 @Component({
     selector: 'app-recover',
     templateUrl: './recover.component.html',
     styleUrls: ['./recover.component.scss'],
     standalone: true,
-    imports: [ToolbarComponent, FlexModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
+    imports: [MatToolbar, FlexModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
 })
 export class RecoverComponent implements OnInit {
 

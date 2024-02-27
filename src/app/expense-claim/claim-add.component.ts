@@ -12,7 +12,7 @@ import { UserClaimFormComponent } from './user-claim-form/user-claim-form.compon
 @Component({
   selector: 'app-claim-add',
   template: `
-    <app-toolbar>New expense claim</app-toolbar>
+    <app-toolbar title="IBRSC - New expense claim"></app-toolbar>
     @if (auth.isTreasurer()) {
       <app-claim-form #claimform (submitted)="submitted($event)"></app-claim-form>
     } @else {

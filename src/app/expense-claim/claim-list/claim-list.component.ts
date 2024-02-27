@@ -11,11 +11,12 @@ import { DialogsService } from '../../shared';
 import { Claim } from '../claim.model';
 import { ClaimService } from '../claim.service';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
+import { AuthButtonComponent } from '../../auth/auth-button/auth-button.component';
 
 @Component({
   selector: 'app-claim-list',
   standalone: true,
-  imports: [MatButtonModule, RouterLink, MatListModule, MatIconModule, ToolbarComponent, MatDividerModule, MatLineModule, NgIf, NgFor, DatePipe],
+  imports: [AuthButtonComponent, MatButtonModule, RouterLink, MatListModule, MatIconModule, ToolbarComponent, MatDividerModule, MatLineModule, NgIf, NgFor, DatePipe],
   templateUrl: './claim-list.component.html',
   styleUrl: './claim-list.component.scss'
 })

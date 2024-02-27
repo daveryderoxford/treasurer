@@ -10,7 +10,7 @@ import { UserClaimFormComponent } from './user-claim-form/user-claim-form.compon
 @Component({
   selector: 'app-claim-edit',
   template: `
-    <app-toolbar>Edit expense claim</app-toolbar>
+      <app-toolbar [title]="title()"></app-toolbar>
     @if (auth.isTreasurer()) {
       <app-claim-form [claim]="claim()" #claimform (submitted)="submitted($event)"></app-claim-form>
     } @else {
@@ -25,9 +25,12 @@ export class ClaimEditComponent implements OnInit {
 
   id = signal<string | null>("");
 
+
   claim = computed<Claim>( 
     () => this.fs.claims().find((claim => claim.id === this.id()))!
   );
+
+  title = computed( () => 'Edit claim  ' + this.id());
    
   @ViewChild('claimform') claimForm: ClaimFormComponent | undefined;
 

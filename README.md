@@ -1,4 +1,4 @@
-# Treasurer
+# IBRSC Expense claims management
 
 Simple applicartion to manage expense claims and invoices.
 

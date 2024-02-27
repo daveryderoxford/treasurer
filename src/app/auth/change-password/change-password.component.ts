@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, sendEmailVerification, updatePassword, AuthError } from '@angular/fire/auth';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { Component } from '@angular/core';
+import { Auth, updatePassword } from '@angular/fire/auth';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 import { FlexModule } from '@ngbracket/ngx-layout/flex';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 

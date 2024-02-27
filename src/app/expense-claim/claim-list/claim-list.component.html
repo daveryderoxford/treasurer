@@ -1,9 +1,10 @@
-<app-toolbar>Expense Claims
-    <span class="spacer"></span>
+<app-toolbar title="IBRSC - Expense Claims" showBack="false">
     <a mat-flat-button color=primary [routerLink]="['/claims/add']">
         <mat-icon>add</mat-icon> New
     </a>
+    <app-auth-button></app-auth-button>
 </app-toolbar>
+
 
 <mat-list>
     <mat-divider></mat-divider>

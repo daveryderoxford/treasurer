@@ -1,5 +1,4 @@
-import { NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Auth, User, authState } from '@angular/fire/auth';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +10,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
   selector: 'app-auth-button',
   standalone: true,
-  imports: [MatButtonModule, MatIconModule, MatMenuModule, RouterLink, NgIf],
+  imports: [MatButtonModule, MatIconModule, MatMenuModule, RouterLink],
   templateUrl: './auth-button.component.html',
   styleUrl: './auth-button.component.scss'
 })
