@@ -5,7 +5,7 @@ import { AuthGuard } from '../auth/guards/auth-guard';
 import { PendingChangesGuard } from '../shared/services/pending-changes-guard-service.guard';
 
 const routes: Routes = [
-  { path: "", component: UserComponent, canActivate: [AuthGuard], canDeactivate: [PendingChangesGuard] },
+  { path: "", component: UserComponent, canActivate: [AuthGuard], canDeactivate: [PendingChangesGuard], title: 'User details' },
 ];
 
 @NgModule({

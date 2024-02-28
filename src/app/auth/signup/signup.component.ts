@@ -1,7 +1,6 @@
-import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, sendEmailVerification } from '@angular/fire/auth';
-import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,30 +8,30 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbar } from '@angular/material/toolbar';
 import { Router, RouterLink } from '@angular/router';
 import { FlexModule } from '@ngbracket/ngx-layout/flex';
+import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.scss'],
     standalone: true,
-    imports: [MatToolbar, FlexModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, NgIf, MatButtonModule, RouterLink]
+    imports: [FormContainerComponent, MatToolbar, FlexModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
 })
 export class SignupComponent {
-    signupForm: UntypedFormGroup;
+
+    signupForm = this.formBuilder.group({
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
+    }, { validator: this.passwordMissMatch });
+
     error = '';
 
     constructor(private router: Router,
         private formBuilder: UntypedFormBuilder,
-        private afAuth: Auth) {
-        this.signupForm = this.formBuilder.group({
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', Validators.required],
-            confirmPassword: ['', Validators.required],
-        }, { validator: this.passwordMissMatch });
+        private afAuth: Auth) { }
 
-    }
-
-    passwordMissMatch(g: UntypedFormGroup): any {
+    passwordMissMatch(g: FormGroup): any {
         const p1 = g.get('password')!;
         const p2 = g.get('confirmPassword')!;
         let ret: { [error: string]: any } = {};

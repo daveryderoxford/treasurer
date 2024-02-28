@@ -8,6 +8,7 @@
 <mat-list>
    <mat-list-item *ngFor="let claim of ls.claims()">
       <span matListItemTitle>
+         <span class=gap>{{claim.id}}</span>
          <span class=gap>{{claim.dateSubmitted | date}}</span>
          @if (auth.isTreasurer()) {
          <span class=gap>{{claim.name}}</span>

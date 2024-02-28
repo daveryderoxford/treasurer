@@ -6,12 +6,13 @@ import {
 } from '@angular/fire/auth';
 import { ReactiveFormsModule, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FlexModule } from '@ngbracket/ngx-layout/flex';
+import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
+import { MatCardModule } from '@angular/material/card';
 
 export type AuthType = "EmailAndPassword" | "Google" | "Facebook";
 
@@ -28,7 +29,7 @@ const isInStandaloneMode = () =>
    templateUrl: './login.component.html',
    styleUrls: ['./login.component.scss'],
    standalone: true,
-   imports: [MatToolbarModule, FlexModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
+   imports: [FormContainerComponent, MatCardModule, MatToolbarModule, FlexModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
 })
 export class LoginComponent implements OnInit {
 

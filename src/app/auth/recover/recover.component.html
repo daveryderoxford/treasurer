@@ -1,29 +1,23 @@
 <mat-toolbar color="primary">Recover Your Password</mat-toolbar>
 
-    <div fxLayout="column" fxLayoutAlign="start center" fxFlexFill class=gray>
+<app-form-container>
 
-        <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
+   <form [formGroup]="recoverForm" (ngSubmit)="recover()">
 
-            <mat-card>
+      <div fxLayout="column" fxFlex fxLayoutAlign="space-around">
 
-                <form [formGroup]="recoverForm" (ngSubmit)="recover()">
+         <mat-form-field>
+            <input matInput formControlName="email" type="email" placeholder="Email">
+            <mat-error>Invalid email</mat-error>
+         </mat-form-field>
 
-                    <div fxLayout="column" fxFlex fxLayoutAlign="space-around">
+         <BR>
+         <div fxLayout="row" fxLayoutAlign="space-between center">
+            <button [disabled]="recoverForm.invalid" mat-raised-button color=primary type="submit"
+               aria-label="login">Recover</button>
+            <a mat-button routerLink="/auth/login">Remembered your password?</a>
 
-                        <mat-form-field>
-                            <input matInput formControlName="email" type="email" placeholder="Email">
-                            <mat-error>Invalid email</mat-error>
-                        </mat-form-field>
-
-                        <BR>
-                        <div fxLayout="row" fxLayoutAlign="space-between center">
-                            <button [disabled]="recoverForm.invalid" mat-raised-button color=primary type="submit" aria-label="login">Recover</button>
-                            <a mat-button routerLink="/auth/login">Remembered your password?</a>
-
-                        </div>
-                    </div>
-                </form>
-
-            </mat-card>
-        </div>
-    </div>
+         </div>
+      </div>
+   </form>
+</app-form-container>

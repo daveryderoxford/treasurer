@@ -1,61 +1,48 @@
 <app-toolbar title="User details"></app-toolbar>
 
-<!-- Put form in middle of page -->
-<div class=gray-bg fxFill>
+<app-form-container>
 
-  <!-- layout elements vertically with  10px gaps-->
-  <div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap=0px>
+  <form (ngSubmit)="save()" novalidate fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap=10px
+    [formGroup]="userForm">
 
-    <mat-card>
+    @if (showProgressBar) {
+    <mat-progress-bar mode="query"> </mat-progress-bar>
+    }
 
-      <mat-card-content>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput required formControlName="name">
+      <mat-error>Name required</mat-error>
+    </mat-form-field>
 
-      <form (ngSubmit)="save()" novalidate fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap=10px
-        [formGroup]="userForm">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput required formControlName="email">
+      <mat-error>Email required</mat-error>
+    </mat-form-field>
 
-        @if (showProgressBar) {
-        <mat-progress-bar mode="query"> </mat-progress-bar>
-        }
+    <mat-form-field>
+      <mat-label>Bank account holder</mat-label>
+      <input matInput required formControlName="bankAccountHolder">
+      <mat-error>Bank account details are required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput required formControlName="name">
-          <mat-error>Name required</mat-error>
-        </mat-form-field>
+    <mat-form-field>
+      <mat-label>Bank account number</mat-label>
+      <input matInput required formControlName="bankAccountNo">
+      <mat-error>Bank account details are required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput required formControlName="email">
-          <mat-error>Email required</mat-error>
-        </mat-form-field>
+    <mat-form-field>
+      <mat-label>Bank account sort code</mat-label>
+      <input matInput required formControlName="bankSortCode">
+      <mat-error>Bank account details are required</mat-error>
+    </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Bank account holder</mat-label>
-          <input matInput required formControlName="bankAccountHolder">
-          <mat-error>Bank account details are required</mat-error>
-        </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <button [disabled]="userForm.invalid || !userForm.dirty" mat-raised-button color=primary type="submit"
+        aria-label="login">Save</button>
+    </div>
 
-        <mat-form-field>
-          <mat-label>Bank account number</mat-label>
-          <input matInput required formControlName="bankAccountNo">
-          <mat-error>Bank account details are required</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Bank account sort code</mat-label>
-          <input matInput required formControlName="bankSortCode">
-          <mat-error>Bank account details are required</mat-error>
-        </mat-form-field>
-
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-          <button [disabled]="userForm.invalid || !userForm.dirty" mat-raised-button color=primary type="submit"
-            aria-label="login">Save</button>
-        </div>
-
-      </form>
-      </mat-card-content>
-    </mat-card>
-
-  </div>
-
-</div>
+  </form>
+</app-form-container>

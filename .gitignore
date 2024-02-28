@@ -45,7 +45,7 @@ testem.log
 Thumbs.db
 
 # Firebase hosting file
-.firebase
+/.firebase/
 firebase-debug.log
 ui-debug.log
 .firebase/hosting.LmZpcmViYXNlL3RyZWFzdXJlci0zMzRkOS9ob3N0aW5n.cache

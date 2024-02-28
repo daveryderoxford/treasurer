@@ -1,5 +1,4 @@
 
-import { NgFor, NgIf, NgStyle } from "@angular/common";
 import { Component, OnInit, effect } from "@angular/core";
 import { Auth, User, authState } from "@angular/fire/auth";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
@@ -18,6 +17,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ToolbarComponent } from "../../shared/components/toolbar.component";
 import { UserDataService } from "../user-data.service";
 import { UserData } from "../user.model";
+import { FormContainerComponent } from "../../shared/components/form-container/form-container.component";
 
 @UntilDestroy()
 @Component({
@@ -25,7 +25,7 @@ import { UserData } from "../user.model";
   templateUrl: "./user.component.html",
   styleUrls: ["./user.component.scss"],
   standalone: true,
-  imports: [ToolbarComponent, FlexModule, MatCardModule, ReactiveFormsModule, MatProgressBarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, NgStyle, ExtendedModule, NgFor, MatSelectModule, MatOptionModule]
+  imports: [FormContainerComponent,ToolbarComponent, FlexModule, MatCardModule, ReactiveFormsModule, MatProgressBarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, ExtendedModule, MatSelectModule, MatOptionModule]
 })
 export class UserComponent implements OnInit {
 

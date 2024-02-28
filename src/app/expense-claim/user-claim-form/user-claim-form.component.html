@@ -1,50 +1,36 @@
+<app-form-container>
 
-<!-- Put form in middle of page -->
-<div class=gray-bg fxFill>
+   <form (ngSubmit)="submit()" [formGroup]="form" novalidate fxLayout="column" fxLayoutAlign="space-around"
+      fxLayoutGap=10px>
 
-    <!-- layout elements vertically with  10px gaps-->
-    <div fxLayout="column" fxLayoutAlign="space-evenly center">
+      <mat-form-field>
+         <mat-label>Amount</mat-label>
+         <input matInput required class="right-align" formControlName="amount">
+         <span matTextPrefix>£&nbsp;</span>
+         <mat-error>Valid amount in pounds and pence is required</mat-error>
+      </mat-form-field>
 
-        <mat-card appearance="outlined">
+      <mat-form-field>
+         <mat-label>Description of expenditure</mat-label>
+         <input matInput required formControlName="description">
+         <mat-error>Description required</mat-error>
+      </mat-form-field>
 
-            <mat-card-content>
+      <div class="indented">
+         @if (!claim()) {
+         <app-upload-button (uploaded)="attachmentUploaded($event)"></app-upload-button>
+         } @else {
+         Attachments
+         }
 
-                <form (ngSubmit)="submit()" [formGroup]="form" novalidate fxLayout="column" fxLayoutAlign="space-around"
-                    fxLayoutGap=10px>
+         <app-upload-list [files]="attachments" [canDelete]="!claim()"
+            (deleted)="attachmentDeleted($event)"></app-upload-list>
+      </div>
 
-                    <mat-form-field>
-                        <mat-label>Amount</mat-label>
-                        <input matInput required class="right-align" formControlName="amount">
-                        <span matTextPrefix>£&nbsp;</span>
-                        <mat-error>Valid amount in pounds and pence is required</mat-error>
-                    </mat-form-field>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+         <button [disabled]="form.invalid || !form.dirty" mat-raised-button color=primary type="submit"
+            aria-label="submit">Save</button>
+      </div>
 
-                    <mat-form-field>
-                        <mat-label>Description of expenditure</mat-label>
-                        <input matInput required formControlName="description">
-                        <mat-error>Description required</mat-error>
-                    </mat-form-field>
-
-                    <div class="indented">
-                        @if (!claim()) {
-                        <app-upload-button (uploaded)="attachmentUploaded($event)"></app-upload-button>
-                        } @else {
-                        Attachments
-                        }
-
-                        <app-upload-list [files]="attachments" [canDelete]="!claim()"
-                            (deleted)="attachmentDeleted($event)"></app-upload-list>
-                    </div>
-
-                    <div fxLayout="row" fxLayoutAlign="space-between center">
-                        <button [disabled]="form.invalid || !form.dirty" mat-raised-button color=primary type="submit"
-                            aria-label="submit">Save</button>
-                    </div>
-
-                </form>
-            </mat-card-content>
-        </mat-card>
-
-    </div>
-
-</div>
+   </form>
+</app-form-container>

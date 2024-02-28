@@ -14,11 +14,12 @@ import { UploadButtonComponent } from '../../shared/components/file-upload/uploa
 import { UploadListComponent } from '../../shared/components/file-upload/upload-list/upload-list.component';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { Claim, claimStates } from '../claim.model';
+import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 
 @Component({
   selector: 'app-claim-form',
   standalone: true,
-  imports: [FlexModule, UploadListComponent, UploadButtonComponent,ToolbarComponent, MatExpansionModule, MatOptionModule,FlexModule, MatOptionModule, MatOptionModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatOptionModule, MatButtonModule],
+  imports: [FormContainerComponent, FlexModule, UploadListComponent, UploadButtonComponent,ToolbarComponent, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatButtonModule],
   templateUrl: './claim-form.component.html',
   styleUrl: './claim-form.component.scss'
 })

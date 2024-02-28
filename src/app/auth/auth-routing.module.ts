@@ -7,10 +7,10 @@ import { RecoverComponent } from './recover/recover.component';
 import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
-  { path: "login", component: LoginComponent },
-  { path: "signup", component: SignupComponent },
-  { path: "recover", component: RecoverComponent },
-  { path: "change-password", component: ChangePasswordComponent, canActivate: [AuthGuard] },
+  { path: "login", component: LoginComponent, title: 'IBRSC Expenses Logon' },
+  { path: "signup", component: SignupComponent, title: 'IBRSC Expenses Signup' },
+  { path: "recover", component: RecoverComponent, title: 'IBRSC Expenses Recover password' },
+  { path: "change-password", component: ChangePasswordComponent, canActivate: [AuthGuard], title: 'IBRSC Expenses Change password'},
 ];
 
 @NgModule({

@@ -1,6 +1,6 @@
 import { Injectable, Signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { CollectionReference, Firestore, Timestamp, collection, collectionData, deleteDoc, doc, getCountFromServer, query, setDoc, where } from '@angular/fire/firestore';
+import { CollectionReference, Firestore, Timestamp, collection, collectionData, deleteDoc, doc, getCountFromServer, orderBy, query, setDoc, where } from '@angular/fire/firestore';
 import { of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
@@ -27,8 +27,8 @@ export class ClaimService {
           return of<Claim[]>([])
         } else {
           const q = this.auth.isTreasurer() ?
-            query(claimCollection) :
-            query(claimCollection, where('userId', '==', user.uid));
+            query(claimCollection, orderBy('dateSubmitted', 'desc')) :
+            query(claimCollection, where('userId', '==', user.uid), orderBy('dateSubmitted', 'desc') );
           return collectionData(q);
         }
       }),
