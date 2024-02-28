@@ -15,13 +15,14 @@
                <div fxLayout="column" fxFlexFill fxLayoutAlign="center" fxLayoutGap=10px>
 
                   <mat-form-field>
-                     <input matInput formControlName="email" type="email" placeholder="Email" autocomplete="on">
+                     <mat-label>Email</mat-label>
+                     <input matInput formControlName="email" type="email" autocomplete="on">
                      <mat-error>Invalid email</mat-error>
                   </mat-form-field>
 
                   <mat-form-field>
-                     <input matInput formControlName="password" type="password" placeholder="Password"
-                        autocomplete="on">
+                     <mat-label>Password</mat-label>
+                     <input matInput formControlName="password" type="password" autocomplete="on">
                      <mat-error>Password required</mat-error>
                   </mat-form-field>
 

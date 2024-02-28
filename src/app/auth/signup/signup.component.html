@@ -7,18 +7,21 @@
       <div fxLayout="column" fxFlex fxLayoutAlign="space-around">
 
          <mat-form-field>
-            <input matInput formControlName="email" type="email" placeholder="Email">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email">
             <mat-error>Invalid email</mat-error>
          </mat-form-field>
 
          <mat-form-field>
-            <input matInput formControlName="password" type="password" placeholder="Password">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password">
             <mat-error>Password required</mat-error>
 
          </mat-form-field>
 
          <mat-form-field>
-            <input matInput formControlName="confirmPassword" type="password" placeholder="Confirm Password">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirmPassword" type="password">
             <mat-error>Confirm password required</mat-error>
             @if(signupForm.errors && signupForm.errors['passwordMissMatch']) {
                <mat-hint class=error>Passwords do not match</mat-hint>
