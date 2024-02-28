@@ -25,7 +25,7 @@ import { UserData } from "../user.model";
   templateUrl: "./user.component.html",
   styleUrls: ["./user.component.scss"],
   standalone: true,
-  imports: [ToolbarComponent, FlexModule, MatCardModule, ReactiveFormsModule, NgIf, MatProgressBarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, NgStyle, ExtendedModule, NgFor, MatSelectModule, MatOptionModule]
+  imports: [ToolbarComponent, FlexModule, MatCardModule, ReactiveFormsModule, MatProgressBarModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, NgStyle, ExtendedModule, NgFor, MatSelectModule, MatOptionModule]
 })
 export class UserComponent implements OnInit {
 
@@ -39,14 +39,12 @@ export class UserComponent implements OnInit {
     name: new FormControl('', { validators: [Validators.required] }),
     email: new FormControl('', { validators: [Validators.email, Validators.required] }),
     bankAccountHolder: new FormControl('', { validators: [] }),
-    bankAccountNo: new FormControl<number | null>(null, { validators: [Validators.pattern(this.bankACReg)] }),
-    bankSortCode: new FormControl('', { validators: [Validators.pattern(this.sortCodeReg)] }),
+    bankAccountNo: new FormControl<number | null>(null, { validators: [Validators.required, Validators.pattern(this.bankACReg)] }),
+    bankSortCode: new FormControl('', { validators: [Validators.required, Validators.pattern(this.sortCodeReg)] }),
   });
 
   showProgressBar = false;
   busy = false;
-
-  cardclass = "mat-card-mobile";
 
   constructor(
     private afAuth: Auth,

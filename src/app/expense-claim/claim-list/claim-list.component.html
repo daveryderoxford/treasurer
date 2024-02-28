@@ -6,16 +6,15 @@
 </app-toolbar>
 
 <mat-list>
-   <mat-divider></mat-divider>
    <mat-list-item *ngFor="let claim of ls.claims()">
-      <span matListItemTitle fxLayout fxLayoutAlign="space-between">
-         <span>{{claim.dateSubmitted | date}}</span>
+      <span matListItemTitle>
+         <span class=gap>{{claim.dateSubmitted | date}}</span>
          @if (auth.isTreasurer()) {
-         <span>{{claim.name}}</span>
+         <span class=gap>{{claim.name}}</span>
          }
-         <span>£{{claim.amount}}</span>
+         <span class=gap>£{{claim.amount}}</span>
       </span>
-      <span matListItemLine>
+      <span matListItemLine class=gap>
          {{claim.state}}
          @if (claim.state === 'Error' || claim.state === 'Cancelled' || claim.state === 'Rejected') {
             {{claim.reason}}

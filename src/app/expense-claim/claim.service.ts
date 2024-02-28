@@ -1,11 +1,10 @@
-import { Injectable, Signal, effect, signal } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Auth } from '@angular/fire/auth';
-import { CollectionReference, Firestore, collection, collectionData, deleteDoc, doc, getCountFromServer, getDocs, query, setDoc, where } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
-import { shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
-import { Claim } from './claim.model';
+import { CollectionReference, Firestore, Timestamp, collection, collectionData, deleteDoc, doc, getCountFromServer, query, setDoc, where } from '@angular/fire/firestore';
+import { of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
+import { Claim } from './claim.model';
 
 const CLAIMS_COLLECTION = 'claims'
 
@@ -19,7 +18,8 @@ export class ClaimService {
   constructor(private fs: Firestore,
     private auth: AuthService) {
 
-    const claimCollection = collection(this.fs, CLAIMS_COLLECTION) as CollectionReference<Claim>;
+    // Any is used here as Firebase returns Timestamps and not Dates.  
+    const claimCollection = collection(this.fs, CLAIMS_COLLECTION) as CollectionReference<any>;
 
     const claims$ = toObservable(this.auth.user).pipe(
       switchMap((user) => {
@@ -31,11 +31,21 @@ export class ClaimService {
             query(claimCollection, where('userId', '==', user.uid));
           return collectionData(q);
         }
-      })
+      }),
+      map((fsClaims) => this.mapClaimDates(fsClaims))
     );
 
-    this.claims = toSignal(claims$, {initialValue: []});
+    this.claims = toSignal(claims$, { initialValue: [] });
 
+  }
+
+  /** Converts data from Firestore that has Timestamps to dates */
+  mapClaimDates(fsClaims: any[]): Claim[] {
+    return fsClaims.map((fsClaim: any) => {
+      fsClaim.dateSubmitted = fsClaim.dateSubmitted.toDate();
+      fsClaim.datePaid = fsClaim.datePaid?.toDate();
+      return fsClaim as Claim;
+    });
   }
 
   async update(id: string, claim: Partial<Claim>): Promise<void> {

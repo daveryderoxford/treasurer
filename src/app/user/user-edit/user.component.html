@@ -1,41 +1,50 @@
 <app-toolbar title="User details"></app-toolbar>
 
 <!-- Put form in middle of page -->
-<div fxLayout="row" fxLayoutAlign="center space-around">
+<div class=gray-bg fxFill>
 
   <!-- layout elements vertically with  10px gaps-->
-  <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
+  <div fxLayout="column" fxLayoutAlign="space-evenly center" fxLayoutGap=0px>
 
-    <mat-card [class]=cardclass>
+    <mat-card>
+
+      <mat-card-content>
 
       <form (ngSubmit)="save()" novalidate fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap=10px
         [formGroup]="userForm">
 
-        <mat-progress-bar *ngIf="showProgressBar" mode="query"> </mat-progress-bar>
+        @if (showProgressBar) {
+        <mat-progress-bar mode="query"> </mat-progress-bar>
+        }
 
         <mat-form-field>
           <mat-label>Name</mat-label>
           <input matInput required formControlName="name">
+          <mat-error>Name required</mat-error>
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input matInput required formControlName="email">
+          <mat-error>Email required</mat-error>
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Bank account holder</mat-label>
           <input matInput required formControlName="bankAccountHolder">
+          <mat-error>Bank account details are required</mat-error>
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Bank account number</mat-label>
           <input matInput required formControlName="bankAccountNo">
+          <mat-error>Bank account details are required</mat-error>
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Bank account sort code</mat-label>
           <input matInput required formControlName="bankSortCode">
+          <mat-error>Bank account details are required</mat-error>
         </mat-form-field>
 
         <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -44,6 +53,7 @@
         </div>
 
       </form>
+      </mat-card-content>
     </mat-card>
 
   </div>
