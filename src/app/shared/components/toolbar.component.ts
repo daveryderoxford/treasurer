@@ -4,6 +4,7 @@ import { AuthButtonComponent } from '../../auth/auth-button/auth-button.componen
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { TreasurerButtonComponent } from '../../treasurer/treasurer-button/treasurer-button.component';
 
 @Component({
     selector: 'app-toolbar',
@@ -17,11 +18,11 @@ import { RouterModule } from '@angular/router';
    {{title()}}
    <div class=spacer></div>
    <ng-content> </ng-content>
-
+   <app-treasurer-button></app-treasurer-button>
 </mat-toolbar>
     `,
     standalone: true,
-    imports: [MatToolbarModule, AuthButtonComponent, MatButtonModule, MatIconModule, RouterModule],
+    imports: [TreasurerButtonComponent, MatToolbarModule, AuthButtonComponent, MatButtonModule, MatIconModule, RouterModule],
     styles: ['.spacer { flex: 1 1 auto; }']
 
 })

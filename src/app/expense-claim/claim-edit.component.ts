@@ -25,7 +25,6 @@ export class ClaimEditComponent implements OnInit {
 
   id = signal<string | null>("");
 
-
   claim = computed<Claim>( 
     () => this.fs.claims().find((claim => claim.id === this.id()))!
   );

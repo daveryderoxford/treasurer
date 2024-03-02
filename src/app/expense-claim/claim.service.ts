@@ -39,8 +39,8 @@ export class ClaimService {
 
   }
 
-  /** Converts data from Firestore that has Timestamps to dates */
-  mapClaimDates(fsClaims: any[]): Claim[] {
+  /** Converts claim's dates from Timestamps (used by Firestore) to Dates */
+  private mapClaimDates(fsClaims: any[]): Claim[] {
     return fsClaims.map((fsClaim: any) => {
       fsClaim.dateSubmitted = fsClaim.dateSubmitted.toDate();
       fsClaim.datePaid = fsClaim.datePaid?.toDate();

@@ -40,11 +40,7 @@
       </mat-form-field>
 
       <div class="indented">
-         @if (!claim()) {
          <app-upload-button (uploaded)="attachmentUploaded($event)"></app-upload-button>
-         } @else {
-         Attachments
-         }
 
          <app-upload-list [files]="attachments" [canDelete]="!claim()"
             (deleted)="attachmentDeleted($event)"></app-upload-list>

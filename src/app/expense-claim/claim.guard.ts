@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { UserDataService } from '../user/user-data.service';
 
 /* Ensure bank account details are populated before navigatiob to add claim */
-export const claimGuardGuard: CanActivateFn = (route, state) => {
+export const claimGuard: CanActivateFn = (route, state) => {
   const user = inject(UserDataService).user();
   const router = inject(Router);
 

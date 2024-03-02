@@ -1,0 +1,10 @@
+
+@if (auth.isTreasurer()) {
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Treasurer menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink='/treasurer/resolution'>Resolve</button>
+    </mat-menu>
+}

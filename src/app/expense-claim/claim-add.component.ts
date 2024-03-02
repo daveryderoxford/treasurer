@@ -12,7 +12,7 @@ import { UserClaimFormComponent } from './user-claim-form/user-claim-form.compon
 @Component({
   selector: 'app-claim-add',
   template: `
-    <app-toolbar title="IBRSC - New expense claim"></app-toolbar>
+    <app-toolbar title="IBRSC - New claim"></app-toolbar>
     @if (auth.isTreasurer()) {
       <app-claim-form #claimform (submitted)="submitted($event)"></app-claim-form>
     } @else {
@@ -51,7 +51,7 @@ export class ClaimAddComponent {
     private fs: ClaimService,
     private router: Router,
     public auth: AuthService,
-    public us: UserDataService) { }
+    public us: UserDataService) {}
 
   async submitted(formData: Partial<Claim>) {
     const claim = this.createClaim(this.us.user()!, formData, this.auth.isTreasurer());

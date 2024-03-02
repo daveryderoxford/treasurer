@@ -23,4 +23,3 @@ export interface Claim {
     description: string;
     reason?: string;
 }
-
