@@ -1,0 +1,18 @@
+<mat-list>
+
+   @for (result of rs.results(); track result.trans.memo) {
+   <mat-list-item>
+      <span matListItemTitle>{{result.trans.date | date}}</span>
+      <span matListItem>{{result.trans.amount}}</span>
+      <span matListItem>{{result.trans.memo}}</span>
+
+      @if (result.status !== 'OK' && result.claim) {
+      <button mat-icon-button matListItemMeta color="primary" (click)="edit(result.claim)">
+         <mat-icon>edit</mat-icon>
+      </button>
+      }
+   </mat-list-item>
+   } @empty {
+   <mat-list-item> No transactions to show </mat-list-item>
+   }
+</mat-list>

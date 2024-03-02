@@ -1,44 +1,57 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Signal, signal } from '@angular/core';
 import { ClaimService } from '../expense-claim/claim.service';
 import { Claim } from '../expense-claim/claim.model';
 
 export interface BankTransaction {
-   reference: string;
-   name: string;
+   number: string;
+   date: Date;
    ac: number;
    sortCode: string;
    amount: number;
+   subcategory: string;
+   memo: string;
 }
 
-export type ResolutionMatchStatus = 'IDMatch' | 'DataMatch' | 'NotFound';
+export type ReconcilationMatchStatus = 'IDMatch' | 'DataMatch' | 'NotFound';
 
-export type ResolutionDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect';
+export type ReconcilationDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect';
 
-export interface ResolutionResult {
+export interface ReconcilationResult {
    trans: BankTransaction;
    claim?: Claim;
-   match: ResolutionMatchStatus;
-   status: ResolutionDataStatus;
+   match: ReconcilationMatchStatus;
+   status: ReconcilationDataStatus;
 }
 
 @Injectable({
    providedIn: 'root'
 })
-export class ResolutionService {
+export class ReconcilationService {
+
+   results = signal<ReconcilationResult[]>([]);
+
    constructor(private cs: ClaimService) { }
 
+   /** Parse CSV transaction export from Barclays 
+    * 
+    * 
+   */
    readTransactionCSV(data: string): BankTransaction[] {
       const lines = data.split('\n');
 
-      return lines.map((line, index) => {
+      // slice(1) to skip header row
+      return lines.slice(1).map((line, index) => {
          const data = line.split(',');
+         const bankdetails = data[2].split(' ');
          try {
             return {
-               reference: data[0],
-               name: data[1],
-               ac: parseInt(data[2]),
-               sortCode: data[3],
-               amount: parseFloat(data[4])
+               number: data[0],
+               date: new Date(data[1]),
+               sortCode: bankdetails[0],
+               ac: parseInt(bankdetails[1]),
+               amount: parseFloat(data[3]),
+               subcategory: data[4],
+               memo: data[5],
             };
          } catch (e: any) {
             console.error("Error parsing bank transaction  line: " + index + '  data:   '
@@ -48,10 +61,11 @@ export class ResolutionService {
       });
    }
 
-   private findClaim(trans: BankTransaction, claims: Claim[]): { claim: Claim | undefined; status: ResolutionMatchStatus } {
-      let status: ResolutionMatchStatus;
+   /** Find claim related to a bank transaction */
+   private findClaim(trans: BankTransaction, claims: Claim[]): { claim: Claim | undefined; status: ReconcilationMatchStatus; } {
+      let status: ReconcilationMatchStatus;
       // Match on the ID initally
-      let claim = claims.find((c) => c.id === trans.reference);
+      let claim = claims.find((c) => c.id === trans.number);
       status = claim ? 'IDMatch' : 'NotFound';
 
       if (!claim) {
@@ -64,15 +78,16 @@ export class ResolutionService {
       return { claim: claim, status: status };
    }
 
-   private checkClaim(claim: Claim, trans: BankTransaction): ResolutionDataStatus {
-      return 'OK'
+   private checkClaim(claim: Claim, trans: BankTransaction): ReconcilationDataStatus {
+      return 'OK';
       // TODO
    }
 
-   resolve(transactions: BankTransaction[]): ResolutionResult[] {
+   /**  */
+   resolve(transactions: BankTransaction[]) {
 
       const r = transactions.map((trans) => {
-         let status: ResolutionDataStatus = 'NotFound'
+         let status: ReconcilationDataStatus = 'NotFound';
          let found = this.findClaim(trans, this.cs.claims());
          if (found.claim) {
             status = this.checkClaim(found.claim, trans);
@@ -83,9 +98,9 @@ export class ResolutionService {
             claim: found.claim,
             match: found.status,
             status: status
-         }
+         };
 
       });
-      return r;
+      this.results.set(r);
    }
 }
