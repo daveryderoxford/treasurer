@@ -13,7 +13,6 @@ import { ResolutionListComponent } from '../reconcilation-list/reconcilationlist
 })
 export class ReconcilationComponent {
 
-
   constructor(public rs: ReconcilationService) {}
 
   uploadfile() {

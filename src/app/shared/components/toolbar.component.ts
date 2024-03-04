@@ -9,7 +9,7 @@ import { TreasurerButtonComponent } from '../../treasurer/treasurer-button/treas
 @Component({
     selector: 'app-toolbar',
     template: `
-<mat-toolbar color="primary">
+<mat-toolbar class=app-toolbar>
    @if (showBack()) {
       <button [routerLink]="['/']" mat-icon-button>
         <mat-icon>arrow_back</mat-icon>

@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { Claim } from '../../expense-claim/claim.model';
-import { ReconcilationService } from '../reconcilation.service';
+import { ReconcilationResult } from '../reconcilation.service';
 
 @Component({
   selector: 'app-reconcilation-list',
@@ -14,12 +14,13 @@ import { ReconcilationService } from '../reconcilation.service';
   styleUrl: './reconcilation-list.component.scss'
 })
 export class ResolutionListComponent {
-  constructor(public rs: ReconcilationService,
-    private router: Router) { }
+
+  results = input<ReconcilationResult[]>([]);
+
+  constructor(private router: Router) { }
 
   async edit(claim: Claim) {
     console.log('Editing: ' + claim.id);
     this.router.navigate(['claims/edit', claim.id]);
   }
-
 }

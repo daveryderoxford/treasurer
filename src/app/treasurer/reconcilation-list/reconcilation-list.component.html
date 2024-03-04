@@ -1,13 +1,13 @@
 <mat-list>
 
-   @for (result of rs.results(); track result.trans.memo) {
+   @for (result of results(); track result.trans.memo) {
    <mat-list-item>
       <span matListItemTitle>{{result.trans.date | date}}</span>
       <span matListItem>{{result.trans.amount}}</span>
       <span matListItem>{{result.trans.memo}}</span>
 
       @if (result.status !== 'OK' && result.claim) {
-      <button mat-icon-button matListItemMeta color="primary" (click)="edit(result.claim)">
+      <button mat-icon-button matListItemMeta (click)="edit(result.claim)">
          <mat-icon>edit</mat-icon>
       </button>
       }

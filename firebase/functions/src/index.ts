@@ -2,10 +2,10 @@
  * OFixtures Google clould functions exports
  */
 import * as admin from "firebase-admin";
-import * as functions from "firebase-functions";
-import * as user from "./user/user";
+import { setGlobalOptions } from 'firebase-functions/v2/options';
 
 const firebaseAdmin = admin.initializeApp();
+setGlobalOptions({ region: 'europe-west1' });
 
-export const createUsder = user.createUser;
-export const deleteUsder = user.deleteUser;
+export { createUser, deleteUser } from "./user/user";
+export { claimWritten } from "./expense-claim/claim";

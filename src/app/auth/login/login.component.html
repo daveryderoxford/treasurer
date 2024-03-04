@@ -2,49 +2,58 @@
 
 <div fxLayout="column" fxLayoutAlign="start center" fxFlexFill>
 
-   <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
+   <mat-card>
 
-      <div class=error>{{error}}</div>
-
-      <mat-card>
+      <mat-card-content>
 
          <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
 
-            <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()">
+            <div class=error>{{error}}</div>
 
-               <div fxLayout="column" fxFlexFill fxLayoutAlign="center" fxLayoutGap=10px>
 
-                  <mat-form-field>
-                     <mat-label>Email</mat-label>
-                     <input matInput formControlName="email" type="email" autocomplete="on">
-                     <mat-error>Invalid email</mat-error>
-                  </mat-form-field>
+            <div fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap=10px>
 
-                  <mat-form-field>
-                     <mat-label>Password</mat-label>
-                     <input matInput formControlName="password" type="password" autocomplete="on">
-                     <mat-error>Password required</mat-error>
-                  </mat-form-field>
+               <form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()">
 
-                  <div fxLayout="row" fxLayoutAlign="center">
-                     <button mat-raised-button color=primary type="submit" aria-label="login">Sign In</button>
+                  <div fxLayout="column" fxFlexFill fxLayoutAlign="center" fxLayoutGap=10px>
+
+                     <mat-form-field>
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" type="email" autocomplete="on">
+                        <mat-error>Invalid email</mat-error>
+                     </mat-form-field>
+
+                     <mat-form-field>
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" type="password" autocomplete="on">
+                        <mat-error>Password required</mat-error>
+                     </mat-form-field>
+
+                     <div fxLayout="row" fxLayoutAlign="center">
+                        <button mat-flat-button type="submit" aria-label="login">Sign In</button>
+                     </div>
+
+                     <div fxLayout="row" fxLayoutAlign="space-between">
+                        <a mat-button routerLink='/auth/recover'>Forgot password?</a>
+                        <a mat-button routerLink='/auth/signup'>Create account?</a>
+                     </div>
+
                   </div>
 
-                  <div fxLayout="row" fxLayoutAlign="space-between">
-                     <a mat-button routerLink='/auth/recover'>Forgot password?</a>
-                     <a mat-button routerLink='/auth/signup'>Create account?</a>
-                  </div>
+               </form>
+            </div>
 
-               </div>
+            <app-horizontal-rule></app-horizontal-rule>
+            
+         <div class="horizontal_rule"></div>
 
-            </form>
+            <h4>OR LOGIN USING</h4>
+
+            <button mat-flat-button (click)="signInWith('Google')" fxFlexAlign="stretch">GOOGLE</button>
+            <button mat-flat-button  (click)="signInWith('Facebook')"
+               fxFlexAlign="stretch">FACEBOOK</button>
+
          </div>
-      </mat-card>
-
-      <h4>OR LOGIN USING</h4>
-
-      <button mat-raised-button color=primary (click)="signInWith('Google')" fxFlexAlign="stretch">GOOGLE</button>
-      <button mat-raised-button color=primary (click)="signInWith('Facebook')" fxFlexAlign="stretch">FACEBOOK</button>
-
-   </div>
+      </mat-card-content>
+   </mat-card>
 </div>

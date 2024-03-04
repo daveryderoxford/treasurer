@@ -4,18 +4,22 @@
 $theme: matx.define-theme((
   color: (
     theme-type: light,
-    primary: matx.$m3-violet-palette,
+    primary: matx.$m3-blue-palette,
   ),
   density: (
     scale: -1
   )
 ));
 
-//  Common colors
+// Common colors
 $gray-background-color: rgb(209,209,209) !default;
 $gray-text-color: rgb(100,100,100);
 $text-link-color: rgb(20, 20,18000);
 $error-color: red;
 
-html, body { height: 100%; }
+html, body { 
+  height: 100%; 
+  @include mat.all-component-themes($theme);
+}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

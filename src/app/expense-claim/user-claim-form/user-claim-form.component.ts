@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output, effect, input } from '@angular/core';
+import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
+import { Component, EventEmitter, NgZone, Output, ViewChild, effect, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,17 +9,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexModule } from '@ngbracket/ngx-layout';
+import { take } from 'rxjs';
 import { Attachment } from '../../shared/components/file-upload/file-upload.model';
 import { UploadButtonComponent } from '../../shared/components/file-upload/upload-button/upload-button.component';
 import { UploadListComponent } from '../../shared/components/file-upload/upload-list/upload-list.component';
+import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { Claim } from '../claim.model';
-import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-user-claim-form',
   standalone: true,
-  imports: [FormContainerComponent, UploadListComponent, UploadButtonComponent, ToolbarComponent, FlexModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatOptionModule, MatButtonModule],
+  imports: [FormContainerComponent, UploadListComponent, UploadButtonComponent, ToolbarComponent, FlexModule, MatDividerModule,TextFieldModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatOptionModule, MatButtonModule],
   templateUrl: './user-claim-form.component.html',
   styleUrl: './user-claim-form.component.scss'
 })
@@ -26,6 +29,8 @@ export class UserClaimFormComponent {
 
   claim = input<Claim | null>();
   @Output() submitted = new EventEmitter<Partial<Claim>>();
+
+  @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 
   private currancyReg = '';
 
@@ -35,7 +40,7 @@ export class UserClaimFormComponent {
     attachments: new FormControl<Attachment[]>([], { nonNullable: true })
   });
 
-  constructor() {
+  constructor(private _ngZone: NgZone) {
     effect(() => {
       if (this.claim()) {
         this.form.patchValue(this.claim()!);
@@ -73,5 +78,10 @@ export class UserClaimFormComponent {
 
   public canDeactivate(): boolean {
     return !this.form.dirty;
+  }
+  
+  triggerResize() {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this._ngZone.onStable.pipe(take(1)).subscribe(() => this.autosize!.resizeToFitContent(true));
   }
 }

@@ -23,7 +23,15 @@
 
       <mat-form-field>
          <mat-label>Description of expenditure</mat-label>
-         <input matInput required formControlName="description">
+         <textarea matInput 
+                   required 
+                   cdkTextareaAutosize 
+                   formControlName="description" 
+                   #autosize="cdkTextareaAutosize" 
+                   cdkAutosizeMinRows="1" 
+                   cdkAutosizeMaxRows="5" >
+         </textarea>
+         <mat-hint>Up to 4 lines</mat-hint>
          <mat-error>Description required</mat-error>
       </mat-form-field>
 
@@ -45,7 +53,7 @@
          <app-upload-list [files]="attachments" [canDelete]="!claim()"
             (deleted)="attachmentDeleted($event)"></app-upload-list>
       </div>
-
+  
       <mat-expansion-panel>
          <mat-expansion-panel-header>
             <mat-panel-title>
@@ -72,7 +80,7 @@
       </mat-expansion-panel>
 
       <div fxLayout="row" fxLayoutAlign="space-between center">
-         <button [disabled]="form.invalid || !form.dirty" mat-raised-button color=primary type="submit"
+         <button [disabled]="form.invalid || !form.dirty" mat-flat-button type="submit"
             aria-label="submit">Save</button>
       </div>
 

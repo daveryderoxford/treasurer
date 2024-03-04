@@ -1,5 +1,5 @@
 <app-toolbar title="IBRSC - Expenses" showBack="false">
-   <a mat-flat-button color=primary [routerLink]="['/claims/add']">
+   <a mat-flat-button [routerLink]="['/claims/add']">
       <mat-icon>add</mat-icon> New
    </a>
    <app-auth-button></app-auth-button>
@@ -16,7 +16,7 @@
          <span class=gap>£{{claim.amount}}</span>
       </span>
       <span matListItemLine class=gap>
-         {{claim.state}}
+        <b> {{claim.state}}</b>
          @if (claim.state === 'Error' || claim.state === 'Cancelled' || claim.state === 'Rejected') {
             {{claim.reason}}
          } @else {

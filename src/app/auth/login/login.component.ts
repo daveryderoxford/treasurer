@@ -13,6 +13,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FlexModule } from '@ngbracket/ngx-layout/flex';
 import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 import { MatCardModule } from '@angular/material/card';
+import { HorizontalRuleComponent } from '../../shared/components/horizontal-rule.component';
 
 export type AuthType = "EmailAndPassword" | "Google" | "Facebook";
 
@@ -29,7 +30,7 @@ const isInStandaloneMode = () =>
    templateUrl: './login.component.html',
    styleUrls: ['./login.component.scss'],
    standalone: true,
-   imports: [FormContainerComponent, MatCardModule, MatToolbarModule, FlexModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
+   imports: [FormContainerComponent, HorizontalRuleComponent, MatCardModule, MatToolbarModule, FlexModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink]
 })
 export class LoginComponent implements OnInit {
 

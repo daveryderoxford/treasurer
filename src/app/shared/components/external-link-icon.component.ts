@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -9,11 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
     standalone: true,
     imports: [MatIconModule]
 })
-export class ExternalLinkIconComponent implements OnInit {
+export class ExternalLinkIconComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }
