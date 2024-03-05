@@ -1,4 +1,4 @@
-import { getFirestore  } from 'firebase-admin/firestore';
+import { getFirestore } from 'firebase-admin/firestore';
 
 export interface MailMessage {
    to: string;
@@ -8,6 +8,9 @@ export interface MailMessage {
    };
 }
 
+/** Send email using Firebase email extension by creating 
+ *  document in  mail collection. 
+ */
 export async function sendMail(message: MailMessage) {
    const db = getFirestore();
 

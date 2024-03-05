@@ -5,15 +5,24 @@
    <app-auth-button></app-auth-button>
 </app-toolbar>
 
+<div>
+<mat-form-field  appearance="outline" class="full-width">
+      <mat-icon matPrefix>search</mat-icon>
+   <input  #searchQuery
+           matInput placeholder="Search" 
+            (input)="searchKeyPressed(searchQuery.value)">
+</mat-form-field>
+</div>
+
 <mat-list>
-   <mat-list-item *ngFor="let claim of ls.claims()">
+   <mat-list-item *ngFor="let claim of filteredClaims()">
       <span matListItemTitle>
          <span class=gap>{{claim.id}}</span>
          <span class=gap>{{claim.dateSubmitted | date}}</span>
          @if (auth.isTreasurer()) {
          <span class=gap>{{claim.name}}</span>
          }
-         <span class=gap>£{{claim.amount}}</span>
+         <span class=gap>£{{claim.amount | number: '1.2-2'}}</span>
       </span>
       <span matListItemLine class=gap>
         <b> {{claim.state}}</b>
@@ -34,3 +43,4 @@
 
    </mat-list-item>
 </mat-list>
+<app-claim-summary [claims]="filteredClaims()"></app-claim-summary>

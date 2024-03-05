@@ -39,11 +39,15 @@ export class ClaimService {
 
   }
 
-  /** Converts claim's dates from Timestamps (used by Firestore) to Dates */
+  /** Converts claim fields as stored in Firestore to their ciorrect types.
+   * - dates from Timestamps (used by Firestore) to Dates 
+   * - decinal numbers that get stored in Firestore as strings back to Numbers 
+  */
   private mapClaimDates(fsClaims: any[]): Claim[] {
     return fsClaims.map((fsClaim: any) => {
       fsClaim.dateSubmitted = fsClaim.dateSubmitted.toDate();
       fsClaim.datePaid = fsClaim.datePaid?.toDate();
+      fsClaim.amount = parseFloat(fsClaim.amount)
       return fsClaim as Claim;
     });
   }

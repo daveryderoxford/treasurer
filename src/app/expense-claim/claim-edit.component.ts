@@ -10,12 +10,14 @@ import { UserClaimFormComponent } from './user-claim-form/user-claim-form.compon
 @Component({
   selector: 'app-claim-edit',
   template: `
+     @defer {
       <app-toolbar [title]="title()"></app-toolbar>
     @if (auth.isTreasurer()) {
       <app-claim-form [claim]="claim()" #claimform (submitted)="submitted($event)"></app-claim-form>
     } @else {
       <app-user-claim-form [claim]="claim()"  #claimform (submitted)="submitted($event)"></app-user-claim-form>
     }
+  }
   `,
   styles: [],
   standalone: true,

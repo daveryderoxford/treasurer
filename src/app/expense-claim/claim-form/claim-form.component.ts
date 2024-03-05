@@ -18,11 +18,10 @@ import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { Claim, claimStates } from '../claim.model';
 import { MatDividerModule } from '@angular/material/divider';
 
-
 @Component({
   selector: 'app-claim-form',
   standalone: true,
-  imports: [FormContainerComponent, FlexModule, MatDividerModule, UploadListComponent, UploadButtonComponent, ToolbarComponent, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatButtonModule],
+  imports: [FormContainerComponent, FlexModule, MatDividerModule, UploadListComponent, UploadButtonComponent, ToolbarComponent, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './claim-form.component.html',
   styleUrl: './claim-form.component.scss'
 })

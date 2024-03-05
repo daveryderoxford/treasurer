@@ -1,13 +1,22 @@
+@use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
+@use 'styles.scss' as s;
+
+$screen-background: mat.get-theme-color(s.$theme, surface-container);
+
+$card-background: mat.get-theme-color(s.$theme, surface);
+
 mat-card {
     max-width: 400px !important;
     width: 100vw !important;
     min-width: 400px !important;
     margin-top: 15px;
     margin-bottom: 10px;
+    background-color: $card-background;
  }
 
-.gray-bg {
-    background-color: rgb(230,230,230);
+.screen-bg {
+    background-color: $screen-background;
  }
 
  .error {

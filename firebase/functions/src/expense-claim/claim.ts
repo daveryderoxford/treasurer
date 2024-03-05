@@ -25,5 +25,6 @@ export const claimWritten = onDocumentWritten("claims/{id}", (event) => {
       };
       sendMail(msg);
    }
+
 });
 
