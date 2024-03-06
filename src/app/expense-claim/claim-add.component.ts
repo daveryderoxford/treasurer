@@ -56,7 +56,11 @@ export class ClaimAddComponent {
 
   async submitted(formData: Partial<Claim>) {
     const claim = this.createClaim(this.us.user()!, formData, this.auth.isTreasurer());
-    await this.fs.add(claim);
+    try {
+       await this.fs.add(claim);
+    } catch(e: any) {
+      console.log('Error encountered saving claim'+ e.toSting());
+    }
     this.router.navigate(["/claims"]);
   }
 

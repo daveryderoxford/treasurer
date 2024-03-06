@@ -27,5 +27,13 @@ service cloud.firestore {
       allow read, delete: if request.auth.uid == userId || isAdmin(request);
       allow update: if (request.auth.uid == userId || isAdmin(request)) && validUserUpdate(request.resource.data,resource.data);
     }
+
+    // System data may be updated by any logged on user but only created/deleted by admin
+    match /system/{document=**} {
+      allow create, delete: if isAdmin(request);
+      allow update: if request.auth.uid != null;
+      allow read;
+    }
+
   }
 }
