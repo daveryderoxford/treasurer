@@ -46,7 +46,7 @@ export class ClaimAddComponent {
     return { ...defaultClaim, ...formData };
   }
 
-  @ViewChild('claimform') claimForm: ClaimFormComponent | undefined;
+  @ViewChild('claimform') claimForm: UserClaimFormComponent | undefined;
 
   constructor(
     private fs: ClaimService,
