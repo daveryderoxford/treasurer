@@ -17,6 +17,7 @@ import { FormContainerComponent } from '../../shared/components/form-container/f
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { Claim } from '../claim.model';
 import { MatDividerModule } from '@angular/material/divider';
+import { currencyValidator } from '../../shared/validators';
 
 @Component({
   selector: 'app-user-claim-form',
@@ -32,10 +33,8 @@ export class UserClaimFormComponent {
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 
-  private currancyReg = '^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$';
-
   form = new FormGroup({
-    amount: new FormControl<number | null>(null, { validators: [Validators.pattern(this.currancyReg), Validators.required] }),
+    amount: new FormControl<number | null>(null, { validators: [currencyValidator, Validators.required] }),
     description: new FormControl('', { validators: [Validators.required] }),
     attachments: new FormControl<Attachment[]>([], { nonNullable: true })
   });

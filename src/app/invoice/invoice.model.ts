@@ -1,3 +1,4 @@
+import { Attachment } from '../shared/components/file-upload/file-upload.model';
 
 
 export const invoiceStates = ['Submitted', 'Paid', 'Reconciled', 'Error', 'Cancelled'] as const;
@@ -8,13 +9,13 @@ export interface Invoice {
     userId: string;
     email: string;
     dateSubmitted: Date;
-    dateSPaid: Date;
+    datePaid: Date;
 
     name: string;
     amount: number;
-    attachments: string[];
+    attachments: Attachment[];
     state: InvoiceState;
    
     description: string;
-    notes: string | undefined;
+    reason?: string;
 }

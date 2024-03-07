@@ -17,6 +17,7 @@ import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { Claim } from '../claim.model';
 import { ClaimService } from '../claim.service';
 import { ClaimSummaryComponent } from './claim-summary/claim-summary.component';
+import { ListContainerComponent } from '../../shared/components/list-container/list-container.component';
 
 function filterClaim(claim: Claim, filter: string): boolean {
   return !filter || filter === '' ||
@@ -28,7 +29,7 @@ function filterClaim(claim: Claim, filter: string): boolean {
 @Component({
   selector: 'app-claim-list',
   standalone: true,
-  imports: [FlexModule, CommonModule, AuthButtonComponent, ClaimSummaryComponent, DecimalPipe, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink, MatListModule, MatIconModule, ToolbarComponent, MatDividerModule, MatLineModule, DatePipe],
+  imports: [FlexModule, CommonModule, ListContainerComponent, AuthButtonComponent, ClaimSummaryComponent, DecimalPipe, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink, MatListModule, MatIconModule, ToolbarComponent, MatDividerModule, MatLineModule, DatePipe],
   templateUrl: './claim-list.component.html',
   styleUrl: './claim-list.component.scss'
 })

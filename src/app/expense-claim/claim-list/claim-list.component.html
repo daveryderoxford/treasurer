@@ -6,41 +6,42 @@
 </app-toolbar>
 
 <div>
-<mat-form-field  appearance="outline" class="full-width">
+   <mat-form-field appearance="outline" subscriptSizing='dynamic' class="full-width">
       <mat-icon matPrefix>search</mat-icon>
-   <input  #searchQuery
-           matInput placeholder="Search" 
-            (input)="searchKeyPressed(searchQuery.value)">
-</mat-form-field>
+      <input #searchQuery matInput placeholder="Search" (input)="searchKeyPressed(searchQuery.value)">
+   </mat-form-field>
 </div>
 
-<mat-list>
-   <mat-list-item *ngFor="let claim of filteredClaims()">
-      <span matListItemTitle>
-         <span class=gap>{{claim.id}}</span>
-         <span class=gap>{{claim.dateSubmitted | date}}</span>
-         @if (auth.isTreasurer()) {
-         <span class=gap>{{claim.name}}</span>
-         }
-         <span class=gap>£{{claim.amount | number: '1.2-2'}}</span>
-      </span>
-      <span matListItemLine class=gap>
-        <b> {{claim.state}}</b>
-         @if (claim.state === 'Error' || claim.state === 'Cancelled' || claim.state === 'Rejected') {
-            {{claim.reason}}
-         } @else {
-            {{claim.attachments.length.toString()}} attachemnts
-         }
-      </span>
-      <span matListItemLine> {{claim.description}}</span>
 
-      @if (auth.isTreasurer() || claim.state === 'Submitted') {
+<app-list-container>
+   <mat-list>
+      <mat-list-item *ngFor="let claim of filteredClaims()">
+         <span matListItemTitle>
+            <span class=gap>{{claim.id}}</span>
+            <span class=gap>{{claim.dateSubmitted | date}}</span>
+            @if (auth.isTreasurer()) {
+            <span class=gap>{{claim.name}}</span>
+            }
+            <span class=gap>£{{claim.amount | number: '1.2-2'}}</span>
+         </span>
+         <span matListItemLine>
+            <b class="gap"> {{claim.state}}</b>
+            @if (claim.state === 'Error' || claim.state === 'Cancelled' || claim.state === 'Rejected') {
+            {{claim.reason}}
+            } @else {
+            {{claim.attachments.length.toString()}} attachemnts
+            }
+         </span>
+         <span matListItemLine> {{claim.description}}</span>
+
+         @if (auth.isTreasurer() || claim.state === 'Submitted') {
          <button mat-icon-button matListItemMeta color="primary" (click)="edit(claim)">
             <mat-icon>edit</mat-icon>
          </button>
-      }
-      <mat-divider></mat-divider>
+         }
+         <mat-divider></mat-divider>
 
-   </mat-list-item>
-</mat-list>
-<app-claim-summary [claims]="filteredClaims()"></app-claim-summary>
+      </mat-list-item>
+   </mat-list>
+   <app-claim-summary [claims]="filteredClaims()"></app-claim-summary>
+</app-list-container>

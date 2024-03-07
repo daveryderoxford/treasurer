@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
+@use 'styles.scss' as s;
+
+$screen-background: mat.get-theme-color(s.$theme, surface-container-highest );
+
+$list-background: mat.get-theme-color(s.$theme,surface-container );
+
+.list-container {
+   max-width: 800px !important;
+   width: 100vw !important;
+   min-width: none;
+   background-color: $list-background;
+}
+
+.screen-bg {
+   background-color: $screen-background;
+}

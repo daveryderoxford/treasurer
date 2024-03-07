@@ -1,3 +1,46 @@
 @defer {
-   <p>invoice-list works!</p>
+<app-toolbar title="IBRSC - Invoices" showBack="false">
+   <a mat-flat-button [routerLink]="['/invoices/add']">
+      <mat-icon>add</mat-icon> New
+   </a>
+   <app-auth-button></app-auth-button>
+</app-toolbar>
+
+<div>
+   <mat-form-field appearance="outline" subscriptSizing='dynamic' class="full-width">
+      <mat-icon matPrefix>search</mat-icon>
+      <input #searchQuery matInput placeholder="Search" (input)="searchKeyPressed(searchQuery.value)">
+   </mat-form-field>
+</div>
+
+<app-list-container>
+   <mat-list>
+      <mat-list-item *ngFor="let invoice of filteredInvoices()">
+         <span matListItemTitle>
+            <span class=gap>{{invoice.id}}</span>
+            <span class=gap>{{invoice.dateSubmitted | date}}</span>
+            @if (auth.isTreasurer()) {
+            <span class=gap>{{invoice.name}}</span>
+            }
+            <span class=gap>£{{invoice.amount | number: '1.2-2'}}</span>
+         </span>
+         <span matListItemLine>
+            <b class="gap"> {{invoice.state}}</b>
+            @if (invoice.state === 'Error' || invoice.state === 'Cancelled') {
+            {{invoice.reason}}
+            } @else {
+            {{invoice.attachments.length.toString()}} attachemnts
+            }
+         </span>
+         <span matListItemLine> {{invoice.description}}</span>
+
+         <button mat-icon-button matListItemMeta color="primary" (click)="edit(invoice)">
+            <mat-icon>edit</mat-icon>
+         </button>
+         
+         <mat-divider></mat-divider>
+
+      </mat-list-item>
+   </mat-list>
+</app-list-container>
 }

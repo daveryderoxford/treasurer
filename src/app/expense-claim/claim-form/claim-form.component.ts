@@ -15,6 +15,7 @@ import { UploadButtonComponent } from '../../shared/components/file-upload/uploa
 import { UploadListComponent } from '../../shared/components/file-upload/upload-list/upload-list.component';
 import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
+import { bankACValidator, currencyValidator, sortCodeValidator } from '../../shared/validators';
 import { Claim, claimStates } from '../claim.model';
 
 @Component({
@@ -31,23 +32,18 @@ export class ClaimFormComponent {
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 
-
   claimStates = claimStates;
-
-  private currancyReg = '^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$';
-  private bankACReg = '^[0-9]{8}$';
-  private sortCodeReg = '^[0-9]{2}-[0-9]{2}-[0-9]{2}$'; 
 
   form = new FormGroup({
     name: new FormControl('', { validators: [Validators.required] }),
     email: new FormControl('', { validators: [Validators.email, Validators.required] }),
-    amount: new FormControl<number | null>(null, { validators: [Validators.pattern(this.currancyReg), Validators.required] }),
+    amount: new FormControl<number | null>(null, { validators: [currencyValidator, Validators.required] }),
     description: new FormControl('', { validators: [Validators.required] }),
     bankAccountHolder: new FormControl('', { validators: [] }),
-    bankAccountNo: new FormControl<number | null>(null, { validators: [Validators.pattern(this.bankACReg)] }),
-    bankSortCode: new FormControl('', { validators: [Validators.pattern(this.sortCodeReg)] }),
+    bankAccountNo: new FormControl<number | null>(null, { validators: [bankACValidator] }),
+    bankSortCode: new FormControl('', { validators: [sortCodeValidator] }),
     state: new FormControl('', Validators.required),
-    notes: new FormControl(''),
+    reason: new FormControl(''),
     attachments: new FormControl<Attachment[]>([], { nonNullable: true })
   });
 

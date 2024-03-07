@@ -18,6 +18,7 @@ import { ToolbarComponent } from "../../shared/components/toolbar.component";
 import { UserDataService } from "../user-data.service";
 import { UserData } from "../user.model";
 import { FormContainerComponent } from "../../shared/components/form-container/form-container.component";
+import { bankACValidator, sortCodeValidator } from '../../shared/validators';
 
 @UntilDestroy()
 @Component({
@@ -29,15 +30,12 @@ import { FormContainerComponent } from "../../shared/components/form-container/f
 })
 export class UserComponent implements OnInit {
 
-  private bankACReg = '^[0-9]{8}$';
-  private sortCodeReg = '^[0-9]{2}-[0-9]{2}-[0-9]{2}$'; 
-
   userForm = new FormGroup({
     name: new FormControl('', { validators: [Validators.required] }),
     email: new FormControl('', { validators: [Validators.email, Validators.required] }),
     bankAccountHolder: new FormControl('', { validators: [Validators.required] }),
-    bankAccountNo: new FormControl<number | null>(null, { validators: [Validators.required, Validators.pattern(this.bankACReg)] }),
-    bankSortCode: new FormControl('', { validators: [Validators.required, Validators.pattern(this.sortCodeReg)] }),
+    bankAccountNo: new FormControl<number | null>(null, { validators: [Validators.required, bankACValidator] }),
+    bankSortCode: new FormControl('', { validators: [Validators.required, sortCodeValidator] }),
   });
 
   showProgressBar = false;

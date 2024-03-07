@@ -6,12 +6,20 @@ import { PendingChangesGuard } from './shared/services/pending-changes-guard-ser
 import { AuthGuard } from './auth/guards/auth-guard';
 import { ReconcilationComponent } from './treasurer/reconcilation/reconcilation.component';
 import { claimGuard } from './expense-claim/claim.guard';
+import { InvoiceListComponent } from './invoice/invoice-list/invoice-list.component';
+import { InvoiceAddComponent } from './invoice/invoice-add.component';
+import { InvoiceEditComponent } from './invoice/invoice-edit.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/claims', pathMatch: 'full' },
     { path: "claims", component: ClaimListComponent, canActivate: [AuthGuard], title: 'Claims' },
-    { path: 'claims/add', component: ClaimAddComponent, canDeactivate: [PendingChangesGuard], canActivate: [AuthGuard, claimGuard],  title: 'Add Claim'},
+    { path: 'claims/add', component: ClaimAddComponent, canDeactivate: [PendingChangesGuard], canActivate: [AuthGuard],  title: 'Add Claim'},
     { path: 'claims/edit/:id', component: ClaimEditComponent, canDeactivate: [PendingChangesGuard], canActivate: [AuthGuard], title: 'Edit Claim' },
+   
+    { path: "invoices", component: InvoiceListComponent, canActivate: [AuthGuard], title: 'Invoices' },
+    { path: 'invoices/add', component: InvoiceAddComponent, canDeactivate: [PendingChangesGuard], canActivate: [AuthGuard], title: 'Add Invoice' },
+    { path: 'invoices/edit/:id', component: InvoiceEditComponent, canDeactivate: [PendingChangesGuard], canActivate: [AuthGuard], title: 'Edit Invoice' },
+
     { path: "treasurer", canActivate: [AuthGuard], children: [
         { path: "reconcilation", component: ReconcilationComponent, title: 'Bank reconcilation' },
     ]},
