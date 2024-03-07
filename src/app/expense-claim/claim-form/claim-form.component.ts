@@ -3,7 +3,7 @@ import { Component, EventEmitter, NgZone, Output, ViewChild, effect, input } fro
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -16,7 +16,6 @@ import { UploadListComponent } from '../../shared/components/file-upload/upload-
 import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { Claim, claimStates } from '../claim.model';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-claim-form',
@@ -34,22 +33,18 @@ export class ClaimFormComponent {
 
 
   claimStates = claimStates;
-/*
-  private currancyReg = '/^(?!0+\.0+$)\d{1,3}(?:,\d{3})*\.\d{2}$/';
-  private bankACReg = '/^[0-9]{9,18}$/';
-  private sortCodeReg = '/^(\d){2}-(\d){2}-(\d){2}$/'; */
 
-  private currancyReg = '';
-  private bankACReg = '';
-  private sortCodeReg = ''; 
+  private currancyReg = '^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$';
+  private bankACReg = '^[0-9]{8}$';
+  private sortCodeReg = '^[0-9]{2}-[0-9]{2}-[0-9]{2}$'; 
 
   form = new FormGroup({
     name: new FormControl('', { validators: [Validators.required] }),
     email: new FormControl('', { validators: [Validators.email, Validators.required] }),
-    amount: new FormControl<number>(0.00, { validators: [Validators.pattern(this.currancyReg), Validators.required] }),
+    amount: new FormControl<number | null>(null, { validators: [Validators.pattern(this.currancyReg), Validators.required] }),
     description: new FormControl('', { validators: [Validators.required] }),
     bankAccountHolder: new FormControl('', { validators: [] }),
-    bankAccountNo: new FormControl<number>(0, { validators: [Validators.pattern(this.bankACReg)] }),
+    bankAccountNo: new FormControl<number | null>(null, { validators: [Validators.pattern(this.bankACReg)] }),
     bankSortCode: new FormControl('', { validators: [Validators.pattern(this.sortCodeReg)] }),
     state: new FormControl('', Validators.required),
     notes: new FormControl(''),

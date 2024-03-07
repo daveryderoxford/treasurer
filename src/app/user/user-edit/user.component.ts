@@ -29,16 +29,13 @@ import { FormContainerComponent } from "../../shared/components/form-container/f
 })
 export class UserComponent implements OnInit {
 
-  /*  private bankACReg = '/^[0-9]{9,18}$/';
-    private sortCodeReg = '/^(\d){2}-(\d){2}-(\d){2}$/'; */
-
-  private bankACReg = '';
-  private sortCodeReg = '';
+  private bankACReg = '^[0-9]{8}$';
+  private sortCodeReg = '^[0-9]{2}-[0-9]{2}-[0-9]{2}$'; 
 
   userForm = new FormGroup({
     name: new FormControl('', { validators: [Validators.required] }),
     email: new FormControl('', { validators: [Validators.email, Validators.required] }),
-    bankAccountHolder: new FormControl('', { validators: [] }),
+    bankAccountHolder: new FormControl('', { validators: [Validators.required] }),
     bankAccountNo: new FormControl<number | null>(null, { validators: [Validators.required, Validators.pattern(this.bankACReg)] }),
     bankSortCode: new FormControl('', { validators: [Validators.required, Validators.pattern(this.sortCodeReg)] }),
   });

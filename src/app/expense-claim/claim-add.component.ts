@@ -55,13 +55,13 @@ export class ClaimAddComponent {
     public us: UserDataService) {}
 
   async submitted(formData: Partial<Claim>) {
+    this.router.navigate(["/claims"]);
     const claim = this.createClaim(this.us.user()!, formData, this.auth.isTreasurer());
     try {
        await this.fs.add(claim);
     } catch(e: any) {
       console.log('Error encountered saving claim'+ e.toSting());
     }
-    this.router.navigate(["/claims"]);
   }
 
   canDeactivate(): boolean {

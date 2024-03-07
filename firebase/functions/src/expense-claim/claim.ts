@@ -19,12 +19,23 @@ export const claimWritten = onDocumentWritten("claims/{id}", (event) => {
          to: after.email,
          message: {
             subject: `IBRSC Expense claim ${after.id} - Submitted`,
-            text: `Amount £${after.amount.toString()} to ${after.name}
-                   ${after.description}`
-         }
+            text: `            
+Thanks for submitting an expense claim to IBRSC.  Details are as follows:
+  Name: ${after.name}
+  Amount £${after.amount.toString()}
+  Email: ${after.email}
+  ${after.attachments.length} attachments
+  Bank account number: ${after.bankAccountNo}
+  Sort code: ${after.bankSortCode}
+  Details: ${after.description}
+
+Please replay to this email if any of these details is not correct. 
+
+Regards
+Dave Ryder
+IBRSC Treasurer
+`}
       };
       sendMail(msg);
    }
-
 });
-

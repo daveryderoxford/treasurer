@@ -32,10 +32,10 @@ export class UserClaimFormComponent {
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 
-  private currancyReg = '';
+  private currancyReg = '^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$';
 
   form = new FormGroup({
-    amount: new FormControl<number>(0.00, { validators: [Validators.pattern(this.currancyReg), Validators.required] }),
+    amount: new FormControl<number | null>(null, { validators: [Validators.pattern(this.currancyReg), Validators.required] }),
     description: new FormControl('', { validators: [Validators.required] }),
     attachments: new FormControl<Attachment[]>([], { nonNullable: true })
   });

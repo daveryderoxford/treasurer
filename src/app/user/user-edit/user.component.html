@@ -30,13 +30,15 @@
     <mat-form-field>
       <mat-label>Bank account number</mat-label>
       <input matInput required formControlName="bankAccountNo">
-      <mat-error>Bank account details are required</mat-error>
+      <mat-hint>8 digits</mat-hint>
+      <mat-error>8 digit Account number required</mat-error>
     </mat-form-field>
 
     <mat-form-field>
       <mat-label>Bank account sort code</mat-label>
       <input matInput required formControlName="bankSortCode">
-      <mat-error>Bank account details are required</mat-error>
+      <mat-hint>Format 99-99-99</mat-hint>
+      <mat-error>Sort code of the form 99-99-99 required</mat-error>
     </mat-form-field>
 
     <div fxLayout="row" fxLayoutAlign="space-between center">
