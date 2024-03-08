@@ -1,6 +1,7 @@
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
-import { Component, EventEmitter, NgZone, Output, ViewChild, effect, input } from '@angular/core';
+import { Component, EventEmitter, NgZone, Output, Signal, ViewChild, computed, effect, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
@@ -17,11 +18,17 @@ import { FormContainerComponent } from '../../shared/components/form-container/f
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { bankACValidator, currencyValidator, sortCodeValidator } from '../../shared/validators';
 import { Claim, claimStates } from '../claim.model';
+import { ClaimService } from '../claim.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+
+function onlyUnique<T>(value: T, index: number, array: Array<T>) {
+  return array.indexOf(value) === index;
+}
 
 @Component({
   selector: 'app-claim-form',
   standalone: true,
-  imports: [FormContainerComponent, FlexModule, MatDividerModule, UploadListComponent, UploadButtonComponent, ToolbarComponent, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
+  imports: [FormContainerComponent, FlexModule, MatDividerModule, MatAutocompleteModule, UploadListComponent, UploadButtonComponent, ToolbarComponent, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './claim-form.component.html',
   styleUrl: './claim-form.component.scss'
 })
@@ -29,6 +36,7 @@ export class ClaimFormComponent {
 
   claim = input<Claim | null>();
   @Output() submitted = new EventEmitter<Partial<Claim>>();
+
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 
@@ -47,7 +55,26 @@ export class ClaimFormComponent {
     attachments: new FormControl<Attachment[]>([], { nonNullable: true })
   });
 
-  constructor(private _ngZone: NgZone) {
+  nameFilter = toSignal<string | null>(this.form.controls.name.valueChanges);
+
+  allNames = computed<string[]>(() => {
+    const names = this.cs.claims().map(claim => claim.name);
+    const distinct = [...new Set(names)].sort((a, b) => a.localeCompare(b));
+    return distinct;
+  });
+
+  filteredNames = computed<string[]>(() => {
+    const filter = this.nameFilter()?.toLowerCase();
+    if (filter) {
+      return this.allNames().filter(n => n.toLowerCase().includes(filter))
+    } else {
+      return this.allNames();
+    }
+  }
+  );
+
+  constructor(private cs: ClaimService, private _ngZone: NgZone) {
+
     effect(() => {
       if (this.claim()) {
         this.form.patchValue(this.claim()!);
@@ -55,8 +82,8 @@ export class ClaimFormComponent {
     });
   }
 
-   /** Get/set the attachments from the form control */
-   get attachments(): Attachment[] {
+  /** Get/set the attachments from the form control */
+  get attachments(): Attachment[] {
     return this.form.controls.attachments.getRawValue();
   }
   set attachments(value: Attachment[]) {
@@ -91,4 +118,19 @@ export class ClaimFormComponent {
     // Wait for changes to be applied, then trigger textarea resize.
     this._ngZone.onStable.pipe(take(1)).subscribe(() => this.autosize!.resizeToFitContent(true));
   }
+
+  /// Fill details fromm the most recent claim for the person
+  fillValues() {
+    const claim = this.cs.claims().find( c => c.name === this.nameFilter());
+    if (claim) {
+      this.form.patchValue( {
+        bankAccountHolder: claim.bankAccountHolder,
+        bankSortCode: claim.bankSortCode,
+        bankAccountNo: claim.bankAccountNo,
+        email: claim.email
+      });
+    }
+
+  }
+
 }
