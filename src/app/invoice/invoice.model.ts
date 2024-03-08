@@ -7,11 +7,13 @@ export type InvoiceState = typeof invoiceStates[number];
 export interface Invoice {
     id: string;
     userId: string;
+
+    name: string;
+    organisation?: string;
     email: string;
     dateSubmitted: Date;
     datePaid: Date;
 
-    name: string;
     amount: number;
     attachments: Attachment[];
     state: InvoiceState;

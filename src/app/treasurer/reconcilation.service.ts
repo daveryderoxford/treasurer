@@ -1,34 +1,14 @@
 import { Injectable, Signal, signal } from '@angular/core';
 import { ClaimService } from '../expense-claim/claim.service';
 import { Claim } from '../expense-claim/claim.model';
-
-export interface BankTransaction {
-   number: string;
-   date: Date;
-   ac: number;
-   sortCode: string;
-   amount: number;
-   subcategory: string;
-   memo: string;
-}
-
-export type ReconcilationMatchStatus = 'IDMatch' | 'DataMatch' | 'NotFound';
-
-export type ReconcilationDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect';
-
-export interface ReconcilationResult {
-   trans: BankTransaction;
-   claim?: Claim;
-   match: ReconcilationMatchStatus;
-   status: ReconcilationDataStatus;
-}
+import { ReconciliationResult, BankTransaction, ReconciliationMatchStatus, ReconcilationDataStatus } from './reconcilation.model';
 
 @Injectable({
    providedIn: 'root'
 })
-export class ReconcilationService {
+export class ReconciliationService {
 
-   results = signal<ReconcilationResult[]>([]);
+   results = signal<ReconciliationResult[]>([]);
 
    constructor(private cs: ClaimService) { }
 
@@ -62,8 +42,8 @@ export class ReconcilationService {
    }
 
    /** Find claim related to a bank transaction */
-   private findClaim(trans: BankTransaction, claims: Claim[]): { claim: Claim | undefined; status: ReconcilationMatchStatus; } {
-      let status: ReconcilationMatchStatus;
+   private findClaim(trans: BankTransaction, claims: Claim[]): { claim: Claim | undefined; status: ReconciliationMatchStatus; } {
+      let status: ReconciliationMatchStatus;
       // Match on the ID initally
       let claim = claims.find((c) => c.id === trans.number);
       status = claim ? 'IDMatch' : 'NotFound';

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
-import { ReconcilationService } from '../reconcilation.service';
+import { ReconciliationService } from '../reconcilation.service';
 import { UploadButtonComponent } from '../../shared/components/file-upload/upload-button/upload-button.component';
 import { ResolutionListComponent } from '../reconcilation-list/reconcilationlist.component';
 
@@ -13,7 +13,7 @@ import { ResolutionListComponent } from '../reconcilation-list/reconcilationlist
 })
 export class ReconcilationComponent {
 
-  constructor(public rs: ReconcilationService) {}
+  constructor(public rs: ReconciliationService) {}
 
   uploadfile() {
     

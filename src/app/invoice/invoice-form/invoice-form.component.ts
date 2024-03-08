@@ -37,6 +37,7 @@ export class InvoiceFormComponent {
 
   form = new FormGroup({
     name: new FormControl('', { validators: [Validators.required] }),
+    organisation: new FormControl(''),
     email: new FormControl('', { validators: [Validators.email, Validators.required] }),
     amount: new FormControl<number | null>(null, { validators: [currencyValidator, Validators.required] }),
     description: new FormControl('', { validators: [Validators.required] }),

@@ -14,7 +14,7 @@ import { AuthButtonComponent } from '../../auth/auth-button/auth-button.componen
 import { AuthService } from '../../auth/auth.service';
 import { DialogsService } from '../../shared';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
-import { Claim } from '../claim.model';
+import { Claim, isAwaitingPayment, isCanceled } from '../claim.model';
 import { ClaimService } from '../claim.service';
 import { ClaimSummaryComponent } from './claim-summary/claim-summary.component';
 import { ListContainerComponent } from '../../shared/components/list-container/list-container.component';
@@ -63,5 +63,15 @@ export class ClaimListComponent {
 
   searchKeyPressed(filter: string) {
     this.searchFilter.set(filter.toLowerCase());
+  }
+
+  stateColor(claim: Claim): string {
+    if (isAwaitingPayment(claim)) {
+      return 'green';
+    } else if (isCanceled(claim)) {
+      return 'red';
+    } else {
+      return 'black';
+    }
   }
 }

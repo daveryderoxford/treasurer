@@ -23,3 +23,9 @@ export interface Claim {
     description: string;
     reason?: string;
 }
+
+export const isAwaitingPayment = (c: Claim) => c.state === 'Submitted' || c.state === 'Approved';
+
+export const isPaid = (c: Claim) => c.state === 'Paid' || c.state === 'Reconciled' || c.state === 'Error';
+
+export const isCanceled = (c: Claim) => c.state === 'Cancelled' || c.state === 'Rejected';

@@ -4,9 +4,14 @@
       fxLayoutGap=10px>
 
       <mat-form-field>
-         <mat-label>Requested By</mat-label>
+         <mat-label>Contact name</mat-label>
          <input matInput required formControlName="name">
          <mat-error>Name required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+         <mat-label>Invoice organisation</mat-label>
+         <input matInput formControlName="organisation">
       </mat-form-field>
 
       <mat-form-field>
@@ -24,9 +29,9 @@
       <mat-form-field>
          <mat-label>Description of expenditure</mat-label>
          <textarea matInput required cdkTextareaAutosize formControlName="description" #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5">
+            cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10">
          </textarea>
-         <mat-hint>Up to 4 lines</mat-hint>
+         <mat-hint>Up to 10 lines</mat-hint>
          <mat-error>Description required</mat-error>
       </mat-form-field>
 
@@ -48,33 +53,6 @@
          <app-upload-list [files]="attachments" [canDelete]="!invoice()"
             (deleted)="attachmentDeleted($event)"></app-upload-list>
       </div>
-
-      <mat-expansion-panel>
-         <mat-expansion-panel-header>
-            <mat-panel-title>
-               Bank account details
-            </mat-panel-title>
-         </mat-expansion-panel-header>
-
-         <mat-form-field>
-            <input matInput formControlName="bankAccountHolder" placeholder="Bank Account holder">
-         </mat-form-field>
-
-         <mat-form-field>
-            <mat-label>Bank Account number</mat-label>
-            <input matInput formControlName="bankAccountNo">
-            <mat-hint>8 digits</mat-hint>
-            <mat-error>8 digit account number required</mat-error>
-         </mat-form-field>
-
-         <mat-form-field>
-            <mat-label>Bank sort code</mat-label>
-            <input matInput formControlName="bankSortCode">
-            <mat-hint>nn-nn-nn</mat-hint>
-            <mat-error>Sort code of the form nn-nn-nn required</mat-error>
-         </mat-form-field>
-
-      </mat-expansion-panel>
 
       <div fxLayout="row" fxLayoutAlign="space-between center">
          <button [disabled]="form.invalid || !form.dirty" mat-flat-button type="submit"

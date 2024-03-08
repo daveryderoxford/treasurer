@@ -12,7 +12,6 @@
    </mat-form-field>
 </div>
 
-
 <app-list-container>
    <mat-list>
       <mat-list-item *ngFor="let claim of filteredClaims()">
@@ -25,14 +24,14 @@
             <span class=gap>£{{claim.amount | number: '1.2-2'}}</span>
          </span>
          <span matListItemLine>
-            <b class="gap"> {{claim.state}}</b>
+            <b [style.color]="stateColor(claim)" class=gap>{{claim.state}}</b>
             @if (claim.state === 'Error' || claim.state === 'Cancelled' || claim.state === 'Rejected') {
             {{claim.reason}}
             } @else {
             {{claim.attachments.length.toString()}} attachemnts
             }
          </span>
-         <span matListItemLine> {{claim.description}}</span>
+         <span matListItemLine>{{claim.description}}</span>
 
          @if (auth.isTreasurer() || claim.state === 'Submitted') {
          <button mat-icon-button matListItemMeta color="primary" (click)="edit(claim)">

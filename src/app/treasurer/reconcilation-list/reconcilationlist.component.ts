@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { Claim } from '../../expense-claim/claim.model';
-import { ReconcilationResult } from '../reconcilation.service';
+import { ReconciliationResult } from '../reconcilation.model';
 
 @Component({
   selector: 'app-reconcilation-list',
@@ -15,7 +15,7 @@ import { ReconcilationResult } from '../reconcilation.service';
 })
 export class ResolutionListComponent {
 
-  results = input<ReconcilationResult[]>([]);
+  results = input<ReconciliationResult[]>([]);
 
   constructor(private router: Router) { }
 
