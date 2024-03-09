@@ -5,11 +5,13 @@ import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { Claim } from '../../expense-claim/claim.model';
 import { ReconciliationResult } from '../reconcilation.model';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ClaimListItemComponent } from '../../expense-claim/claim-list/claim-list-item/claim-list-item.component';
 
 @Component({
   selector: 'app-reconcilation-list',
   standalone: true,
-  imports: [DatePipe, MatListModule, MatIconModule ],
+  imports: [DatePipe, MatListModule, MatIconModule, MatExpansionModule, ClaimListItemComponent],
   templateUrl: './reconcilation-list.component.html',
   styleUrl: './reconcilation-list.component.scss'
 })

@@ -1,16 +1,27 @@
 <mat-list>
 
-   @for (result of results(); track result.trans.memo) {
+   @for (result of results(); track result.memo) {
    <mat-list-item>
-      <span matListItemTitle>{{result.trans.date | date}}</span>
-      <span matListItem>{{result.trans.amount}}</span>
-      <span matListItem>{{result.trans.memo}}</span>
+      <span fxLayout=row matListItemTitle>
+         <span fxFlex>{{result.date | date}}</span>
+         <span fxFlex>{{result.ac.toString()}}</span>
+         <span fxFlex>{{result.amount}}</span>
+         <span fxFlex>{{result.status}}</span>
+      </span>
+      <span matListItem>{{result.memo}}</span>
 
-      @if (result.status !== 'OK' && result.claim) {
-      <button mat-icon-button matListItemMeta (click)="edit(result.claim)">
-         <mat-icon>edit</mat-icon>
-      </button>
-      }
+      <mat-expansion-panel>
+         <mat-expansion-panel-header>
+            <mat-panel-title>
+               Claims
+            </mat-panel-title>
+         </mat-expansion-panel-header>
+         <mat-list>
+            @for (claim of result.claims; track claim.id) {
+               <app-claim-list-item [claim]="claim" (edit)="edit($event)"></app-claim-list-item>
+            }
+         </mat-list>
+      </mat-expansion-panel>
    </mat-list-item>
    } @empty {
    <mat-list-item> No transactions to show </mat-list-item>

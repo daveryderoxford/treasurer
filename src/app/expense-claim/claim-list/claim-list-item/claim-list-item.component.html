@@ -1,0 +1,27 @@
+<mat-list-item>
+   <span matListItemTitle>
+      <span class=gap>{{claim().id}}</span>
+      <span class=gap>{{claim().dateSubmitted | date}}</span>
+      @if (auth.isTreasurer()) {
+      <span class=gap>{{claim().name}}</span>
+      }
+      <span class=gap>£{{claim().amount | number: '1.2-2'}}</span>
+   </span>
+   <span matListItemLine>
+      <b [style.color]="stateColor(claim())" class=gap>{{claim().state}}</b>
+      @if (claim().state === 'Error' || claim().state === 'Cancelled' || claim().state === 'Rejected') {
+      {{claim().reason}}
+      } @else {
+      {{claim().attachments.length.toString()}} attachemnts
+      }
+   </span>
+   <span matListItemLine>{{claim().description}}</span>
+
+   @if (auth.isTreasurer() || claim().state === 'Submitted') {
+     <button mat-icon-button matListItemMeta (click)="edit.emit(claim())">
+        <mat-icon>edit</mat-icon>
+     </button>
+   }
+   <mat-divider></mat-divider>
+
+</mat-list-item>

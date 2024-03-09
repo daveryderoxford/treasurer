@@ -1,7 +1,7 @@
 import { Injectable, Signal, signal } from '@angular/core';
 import { ClaimService } from '../expense-claim/claim.service';
-import { Claim } from '../expense-claim/claim.model';
-import { ReconciliationResult, BankTransaction, ReconciliationMatchStatus, ReconcilationDataStatus } from './reconcilation.model';
+import { Claim, isAwaitingPayment } from '../expense-claim/claim.model';
+import { ReconciliationResult, BankTransaction, ReconcilationDataStatus } from './reconcilation.model';
 
 @Injectable({
    providedIn: 'root'
@@ -12,11 +12,10 @@ export class ReconciliationService {
 
    constructor(private cs: ClaimService) { }
 
-   /** Parse CSV transaction export from Barclays 
-    * 
-    * 
-   */
-   readTransactionCSV(data: string): BankTransaction[] {
+   /** Parse CSV transaction export from Barclays */
+   async readTransactionCSV(file: File): Promise<BankTransaction[]> {
+
+      const data = await file.text();
       const lines = data.split('\n');
 
       // slice(1) to skip header row
@@ -41,46 +40,64 @@ export class ReconciliationService {
       });
    }
 
-   /** Find claim related to a bank transaction */
-   private findClaim(trans: BankTransaction, claims: Claim[]): { claim: Claim | undefined; status: ReconciliationMatchStatus; } {
-      let status: ReconciliationMatchStatus;
-      // Match on the ID initally
-      let claim = claims.find((c) => c.id === trans.number);
-      status = claim ? 'IDMatch' : 'NotFound';
+   /** Reconcile bank transactions with  */
+   reconcile(inputTransactions: BankTransaction[]) {
 
-      if (!claim) {
-         // Match on account/amount for claims thta have not been reconciled
-         claim = claims.find((c) => c.bankAccountNo === trans.ac &&
-            c.amount === trans.amount &&
-            c.state !== 'Reconciled');
-         status = claim ? 'DataMatch' : 'NotFound';
-      }
-      return { claim: claim, status: status };
-   }
+      let status: ReconcilationDataStatus;
 
-   private checkClaim(claim: Claim, trans: BankTransaction): ReconcilationDataStatus {
-      return 'OK';
-      // TODO
-   }
-
-   /**  */
-   resolve(transactions: BankTransaction[]) {
-
-      const r = transactions.map((trans) => {
-         let status: ReconcilationDataStatus = 'NotFound';
-         let found = this.findClaim(trans, this.cs.claims());
-         if (found.claim) {
-            status = this.checkClaim(found.claim, trans);
-         }
-
+      const transactions = inputTransactions.map<ReconciliationResult>((trans) => {
          return {
-            trans: trans,
-            claim: found.claim,
-            match: found.status,
-            status: status
+            ...trans,
+            status: 'NotFound',
+            claims: []
          };
-
       });
-      this.results.set(r);
+
+      //  Find transactions that are 
+      for (const trans of transactions) {
+         const claim = this.cs.claims().find((c) =>
+            c.bankAccountNo === trans.ac &&
+            isAwaitingPayment(c) &&
+            c.amount == trans.amount
+         );
+         if (claim) {
+            trans.claims = [claim];
+            trans.status = 'OK';
+            claim.state = 'Reconciled';
+            this.cs.update(claim.id, claim);
+         }
+      }
+
+      // Assume the rest of then outstanding claims for a bank account are related to a single 
+      for (const trans of transactions) {
+         const claims = this.cs.claims().filter((c) =>
+            c.bankAccountNo === trans.ac &&
+            isAwaitingPayment(c)
+         );
+
+         if (claims.length > 0) {
+            // Check the payment 
+            const total = claims.map(c => c.amount).reduce((total, acc) => total + acc, 0.0);
+            const status = (trans.amount == total) ? 'OK' : 'AmountIncorrect';
+
+            trans.claims = claims;
+            trans.status = status;
+            for (const claim of claims) {
+               if (status == 'OK') {
+                  claim.state = 'Reconciled';
+               } else {
+                  claim.state = 'Error';
+                  claim.reason = 'Total claims not equal to transaction: Total: ' + total + 'transaction' + trans.amount
+                     + ' /n Claims' + claims.map(c => c.id).toString();
+               }
+               this.cs.update(claim.id, claim);
+            }
+         }
+      }
+   }
+
+   /** Saves reconcile transactions to a   */
+   save() {
+
    }
 }

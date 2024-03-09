@@ -14,33 +14,9 @@
 
 <app-list-container>
    <mat-list>
-      <mat-list-item *ngFor="let claim of filteredClaims()">
-         <span matListItemTitle>
-            <span class=gap>{{claim.id}}</span>
-            <span class=gap>{{claim.dateSubmitted | date}}</span>
-            @if (auth.isTreasurer()) {
-            <span class=gap>{{claim.name}}</span>
-            }
-            <span class=gap>£{{claim.amount | number: '1.2-2'}}</span>
-         </span>
-         <span matListItemLine>
-            <b [style.color]="stateColor(claim)" class=gap>{{claim.state}}</b>
-            @if (claim.state === 'Error' || claim.state === 'Cancelled' || claim.state === 'Rejected') {
-            {{claim.reason}}
-            } @else {
-            {{claim.attachments.length.toString()}} attachemnts
-            }
-         </span>
-         <span matListItemLine>{{claim.description}}</span>
-
-         @if (auth.isTreasurer() || claim.state === 'Submitted') {
-         <button mat-icon-button matListItemMeta color="primary" (click)="edit(claim)">
-            <mat-icon>edit</mat-icon>
-         </button>
-         }
-         <mat-divider></mat-divider>
-
-      </mat-list-item>
+      @for (claim of filteredClaims(); track claim.id ){
+        <app-claim-list-item [claim]="claim" (edit)="edit($event)"></app-claim-list-item>
+      }
    </mat-list>
    <app-claim-summary [claims]="filteredClaims()"></app-claim-summary>
 </app-list-container>

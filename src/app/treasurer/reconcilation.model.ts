@@ -10,13 +10,9 @@ export interface BankTransaction {
    memo: string;
 }
 
-export type ReconciliationMatchStatus = 'IDMatch' | 'DataMatch' | 'NotFound';
+export type ReconcilationDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect' | 'AlreadyPaid';
 
-export type ReconcilationDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect';
-
-export interface ReconciliationResult {
-   trans: BankTransaction;
-   claim?: Claim;
-   match: ReconciliationMatchStatus;
+export interface ReconciliationResult extends BankTransaction {
+   claims: Claim[];
    status: ReconcilationDataStatus;
 }
