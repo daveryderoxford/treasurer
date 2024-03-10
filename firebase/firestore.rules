@@ -7,7 +7,7 @@ service cloud.firestore {
    }
 
    function validUserUpdate(old, new) {
-     return old.key  == new.key;
+     return old.id  == new.id;
    }
    
     match /claims/{id} {

@@ -1,5 +1,6 @@
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
-import { Component, EventEmitter, NgZone, Output, Signal, ViewChild, computed, effect, input } from '@angular/core';
+import { Component, EventEmitter, NgZone, Output, ViewChild, computed, effect, input } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,11 +20,6 @@ import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { bankACValidator, currencyValidator, sortCodeValidator } from '../../shared/validators';
 import { Claim, claimStates } from '../claim.model';
 import { ClaimService } from '../claim.service';
-import { toSignal } from '@angular/core/rxjs-interop';
-
-function onlyUnique<T>(value: T, index: number, array: Array<T>) {
-  return array.indexOf(value) === index;
-}
 
 @Component({
   selector: 'app-claim-form',
@@ -36,7 +32,6 @@ export class ClaimFormComponent {
 
   claim = input<Claim | null>();
   @Output() submitted = new EventEmitter<Partial<Claim>>();
-
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize | undefined;
 

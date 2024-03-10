@@ -38,17 +38,19 @@ export class UserDataService {
 
   /** Update the user info.  Returning the modified user details */
   async updateDetails(details: Partial<UserData>): Promise<void> {
-    return updateDoc(this._getUserDoc(), details)
+    if (this.user()) {
+       console.log('UserDataService: Saving user' + this.user()!.id);
+      const doc = this._doc(this.user()!.id);
+      return updateDoc(doc, details)
+    } else {
+      console.log('UserDataService: Saving user: Unexectly null');
+      throw Error('UserDataService: Saving user: Unexectly null');
+    }
+  
   }
 
   private _doc(uid: string): DocumentReference<UserData> {
     return doc(this.fs, "users/" + uid) as DocumentReference<UserData>
   }
 
-  /** Get the database documents associated with the user
-   * The user must be logged in to use this function.
-   */
-  private _getUserDoc(): DocumentReference<UserData> {
-    return this._doc(this.user()?.id!);
-  }
 }

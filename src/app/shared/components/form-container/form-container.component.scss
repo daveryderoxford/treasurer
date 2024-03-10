@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @use '@angular/material-experimental' as matx;
-@use 'styles.scss' as s;
+@use 'styles' as s;
 
 $screen-background: mat.get-theme-color(s.$theme, surface-container);
 
