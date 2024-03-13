@@ -15,7 +15,8 @@
 
 <app-list-container>
    <mat-list>
-      <mat-list-item *ngFor="let invoice of filteredInvoices()">
+      @for (invoice of filteredInvoices(); track invoice.id) {
+      <mat-list-item>
          <span matListItemTitle>
             <span class=gap>{{invoice.id}}</span>
             <span class=gap>{{invoice.dateSubmitted | date}}</span>
@@ -41,6 +42,9 @@
          <mat-divider></mat-divider>
 
       </mat-list-item>
+   } @empty {
+      No invoices to display
+   }
    </mat-list>
 </app-list-container>
 }

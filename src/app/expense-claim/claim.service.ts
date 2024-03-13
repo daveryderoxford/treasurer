@@ -37,7 +37,7 @@ export class ClaimService {
           return collectionData(q);
         }
       }),
-      map((fsClaims) => this.mapClaimDates(fsClaims))
+      map((fsClaims) => this.mapClaim(fsClaims))
     );
 
     this.claims = toSignal(claims$, { initialValue: [] });
@@ -48,7 +48,7 @@ export class ClaimService {
    * - dates from Timestamps (used by Firestore) to Dates 
    * - decinal numbers that get stored in Firestore as strings back to Numbers 
   */
-  private mapClaimDates(fsClaims: any[]): Claim[] {
+  private mapClaim(fsClaims: any[]): Claim[] {
     return fsClaims.map((fsClaim: any) => {
       fsClaim.dateSubmitted = fsClaim.dateSubmitted.toDate();
       fsClaim.datePaid = fsClaim.datePaid?.toDate();

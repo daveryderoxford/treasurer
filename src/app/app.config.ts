@@ -6,24 +6,15 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { firebaseConfig } from './firebase.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
     importProvidersFrom(provideFirebaseApp(
-      () => initializeApp(
-        {
-          "projectId": "treasurer-334d9",
-          "appId": "1:461603429978:web:6f3fe5e3c8c8dfc1290263",
-          "storageBucket": "treasurer-334d9.appspot.com",
-          // Note it is Ok to expose Firebase API key here. Firebase API keys are 
-          // only used to route requests and are not a security risk
-          // see https://firebase.google.com/docs/projects/api-keys
-          "apiKey": "AIzaSyDIO2Em8dTwaLVkIcjUw-sln_SmMSE3eQI",
-          "authDomain": "treasurer-334d9.firebaseapp.com",
-          "messagingSenderId": "461603429978", "measurementId": "G-41G7J2Q961"
-        }))),
+      () => initializeApp(firebaseConfig)
+    )),
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideFirestore(() => getFirestore())),
     importProvidersFrom(provideStorage(() => getStorage()))]

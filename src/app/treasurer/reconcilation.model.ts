@@ -12,7 +12,11 @@ export interface BankTransaction {
 
 export type ReconcilationDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect' | 'AlreadyPaid';
 
+export const transactionTypes = ['BBP', 'BGC', 'DDR', 'FT', 'BG', 'ATM', 'Other'] as const;
+export type TransactionType = typeof transactionTypes[number];
+
 export interface ReconciliationResult extends BankTransaction {
    claims: Claim[];
    status: ReconcilationDataStatus;
+   type: TransactionType;
 }

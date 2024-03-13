@@ -1,7 +1,7 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { Injectable, Signal, computed, signal } from '@angular/core';
 import { ClaimService } from '../expense-claim/claim.service';
 import { Claim, isAwaitingPayment } from '../expense-claim/claim.model';
-import { ReconciliationResult, BankTransaction, ReconcilationDataStatus } from './reconcilation.model';
+import { ReconciliationResult, BankTransaction, ReconcilationDataStatus, TransactionType, transactionTypes } from './reconcilation.model';
 
 @Injectable({
    providedIn: 'root'
@@ -10,12 +10,29 @@ export class ReconciliationService {
 
    results = signal<ReconciliationResult[]>([]);
 
+   billPaymentResults = computed( () => this.results().filter( res => res.type === 'BBP'));
+
    constructor(private cs: ClaimService) { }
 
-   /** Parse CSV transaction export from Barclays */
-   async readTransactionCSV(file: File): Promise<BankTransaction[]> {
+   private typeFromMemo(memo: string): TransactionType {
+      const str = memo.substring(memo.length - 3);
+      if (transactionTypes.includes(str as TransactionType)) {
+         return str as TransactionType;
+      } else {
+         console.log('ReconcilationService: Unexpected transaction type encountered');
+         return 'Other'
+      }
+   }
 
+   async readTransactionCSV(file: File): Promise<void> {
       const data = await file.text();
+      const r =  this.parseTransactionCSV(data);
+    //  this.results.set(r);
+   }
+
+   /** Parse CSV transaction export from Barclays */
+    parseTransactionCSV(data: string): BankTransaction[] {
+
       const lines = data.split('\n');
 
       // slice(1) to skip header row
@@ -31,6 +48,7 @@ export class ReconciliationService {
                amount: parseFloat(data[3]),
                subcategory: data[4],
                memo: data[5],
+               type: this.typeFromMemo(data[5])
             };
          } catch (e: any) {
             console.error("Error parsing bank transaction  line: " + index + '  data:   '
@@ -40,20 +58,22 @@ export class ReconciliationService {
       });
    }
 
-   /** Reconcile bank transactions with  */
+   /** Reconcile bank transactions with claims.  */
    reconcile(inputTransactions: BankTransaction[]) {
 
       let status: ReconcilationDataStatus;
 
+      // Copy all transactions to output
       const transactions = inputTransactions.map<ReconciliationResult>((trans) => {
          return {
             ...trans,
             status: 'NotFound',
-            claims: []
+            claims: [],
+            type: 'Other',
          };
       });
 
-      //  Find transactions that are 
+      //  Find waiting transactions where bank account and  amount matches. 
       for (const trans of transactions) {
          const claim = this.cs.claims().find((c) =>
             c.bankAccountNo === trans.ac &&
@@ -64,11 +84,10 @@ export class ReconciliationService {
             trans.claims = [claim];
             trans.status = 'OK';
             claim.state = 'Reconciled';
-            this.cs.update(claim.id, claim);
          }
       }
 
-      // Assume the rest of then outstanding claims for a bank account are related to a single 
+      // Assume the rest of then outstanding claims for a bank account are related to a single transaction
       for (const trans of transactions) {
          const claims = this.cs.claims().filter((c) =>
             c.bankAccountNo === trans.ac &&
@@ -76,8 +95,8 @@ export class ReconciliationService {
          );
 
          if (claims.length > 0) {
-            // Check the payment 
-            const total = claims.map(c => c.amount).reduce((total, acc) => total + acc, 0.0);
+            // Check the payment totals 
+            const total = claims.reduce((total, c) => total + c.amount, 0.0);
             const status = (trans.amount == total) ? 'OK' : 'AmountIncorrect';
 
             trans.claims = claims;
@@ -90,14 +109,32 @@ export class ReconciliationService {
                   claim.reason = 'Total claims not equal to transaction: Total: ' + total + 'transaction' + trans.amount
                      + ' /n Claims' + claims.map(c => c.id).toString();
                }
-               this.cs.update(claim.id, claim);
             }
          }
       }
    }
 
-   /** Saves reconcile transactions to a   */
-   save() {
+   /** Saves reconciled claim data for all bank transactions */
+   saveClaims() {
+      for (const trans of this.results()) {
+         for (const claim of trans.claims) {
+            this.cs.update(claim.id, claim);
+         }
+      }
+   }
 
+   /** Saves reconciled transactiuon data to cloud storage 
+    * the data file is named */ 
+   saveTransactions() {
+      const data = this.results().map( trans => {
+         return 
+      });
+      
+
+   }
+
+   save() {
+      this.saveClaims();
+      this.saveTransactions();
    }
 }

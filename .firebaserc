@@ -1,4 +1,8 @@
 {
+  "projects": {
+    "default": "treasurer-334d9",
+    "development": "treasurer-development"
+  },
   "targets": {
     "treasurer-334d9": {
       "hosting": {
@@ -6,9 +10,14 @@
           "treasurer-334d9"
         ]
       }
+    },
+    "treasurer-development": {
+      "hosting": {
+        "treasurer": [
+          "treasurer-development"
+        ]
+      }
     }
   },
-  "projects": {
-    "default": "treasurer-334d9"
-  }
+  "etags": {}
 }
