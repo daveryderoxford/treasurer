@@ -1,4 +1,4 @@
-import { Attachment } from '../shared/components/file-upload/file-upload.model';
+import { GoogleStorageReference } from '../shared/components/file-upload/google-storage-ref.model';
 
 
 export const invoiceStates = ['Submitted', 'Paid', 'Reconciled', 'Error', 'Cancelled'] as const;
@@ -15,7 +15,7 @@ export interface Invoice {
     datePaid: Date;
 
     amount: number;
-    attachments: Attachment[];
+    attachments: GoogleStorageReference[];
     state: InvoiceState;
    
     description: string;

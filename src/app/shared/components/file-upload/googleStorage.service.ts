@@ -1,39 +1,39 @@
-import { Injectable, Signal, signal } from '@angular/core';
-import { Storage, deleteObject, getDownloadURL, listAll, ref, uploadBytes, uploadBytesResumable } from '@angular/fire/storage';
+import { Injectable } from '@angular/core';
+import { Storage, UploadMetadata, deleteObject, getDownloadURL, listAll, ref, uploadBytes } from '@angular/fire/storage';
 
-import { Attachment } from './file-upload.model';
+import { GoogleStorageReference } from './google-storage-ref.model';
 
 export type RootPath = 'claims' | 'invoices';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FileUploadService {
+export class GoogleStorageService {
 
   constructor(private storage: Storage) { }
 
-  async pushFileToStorage(files: FileList, rootPath: RootPath, userId: string): Promise<Attachment[]> {
+  async saveFileToStorage(files: File[], 
+    rootPath: RootPath, 
+    userId: string): Promise<GoogleStorageReference[]> {
 
     const userPath = `${rootPath}/${userId}`;
 
-    // Get all files uploaded by user tp generate next name
+    // Get all files uploaded by user to generate next name
     const listRef = ref(this.storage, userPath);
     const allFileNames = await listAll(listRef);
     const firstFileCount = allFileNames.items.length + 1;
 
-    const attachments: Attachment[] = [];
+    const attachments: GoogleStorageReference[] = [];
 
-    for (let index = 0; index < files.length; index++) {
+      for (const [index, file] of files.entries()) {
 
-      const file = files.item(index)!;
       const fileneme = (firstFileCount + index).toString();
 
       const storagePath = userPath + '/' + fileneme;
 
       // Create the file metadata
-      const metadata = {
-        //  contentType: 'image/jpeg',
-        //  originalFilename: fileUpload.file.name
+      const metadata: UploadMetadata = {
+        customMetadata: { originalFilename: file.name }
       };
 
       // Upload file and metadata to the object 'images/mountains.jpg'
@@ -42,7 +42,7 @@ export class FileUploadService {
 
       const downloadURL = await getDownloadURL(snap.ref);
 
-      const newFile: Attachment = {
+      const newFile: GoogleStorageReference = {
         storagePath: storagePath,
         originalFilename: file.name,
         url: downloadURL,
@@ -55,7 +55,7 @@ export class FileUploadService {
 
   }
 
-  deleteFile(fileUpload: Attachment): void {
+  deleteFile(fileUpload: GoogleStorageReference): void {
     const storageRef = ref(this.storage, fileUpload.storagePath);
     deleteObject(storageRef);
   }

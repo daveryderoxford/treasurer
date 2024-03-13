@@ -12,8 +12,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexModule } from '@ngbracket/ngx-layout';
 import { take } from 'rxjs';
-import { Attachment } from '../../shared/components/file-upload/file-upload.model';
-import { UploadButtonComponent } from '../../shared/components/file-upload/upload-button/upload-button.component';
+import { GoogleStorageReference } from '../../shared/components/file-upload/google-storage-ref.model';
+import { GggoleStorageUploadComponent } from '../../shared/components/file-upload/google-storage-upload-button';
 import { UploadListComponent } from '../../shared/components/file-upload/upload-list/upload-list.component';
 import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
@@ -24,7 +24,7 @@ import { ClaimService } from '../claim.service';
 @Component({
   selector: 'app-claim-form',
   standalone: true,
-  imports: [FormContainerComponent, FlexModule, MatDividerModule, MatAutocompleteModule, UploadListComponent, UploadButtonComponent, ToolbarComponent, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
+  imports: [FormContainerComponent, FlexModule, MatDividerModule, MatAutocompleteModule, UploadListComponent, GggoleStorageUploadComponent, ToolbarComponent, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './claim-form.component.html',
   styleUrl: './claim-form.component.scss'
 })
@@ -47,7 +47,7 @@ export class ClaimFormComponent {
     bankSortCode: new FormControl('', { validators: [sortCodeValidator] }),
     state: new FormControl('', Validators.required),
     reason: new FormControl(''),
-    attachments: new FormControl<Attachment[]>([], { nonNullable: true })
+    attachments: new FormControl<GoogleStorageReference[]>([], { nonNullable: true })
   });
 
   nameFilter = toSignal<string | null>(this.form.controls.name.valueChanges);
@@ -78,18 +78,18 @@ export class ClaimFormComponent {
   }
 
   /** Get/set the attachments from the form control */
-  get attachments(): Attachment[] {
+  get attachments(): GoogleStorageReference[] {
     return this.form.controls.attachments.getRawValue();
   }
-  set attachments(value: Attachment[]) {
+  set attachments(value: GoogleStorageReference[]) {
     this.form.controls.attachments.setValue(value);
   }
 
-  attachmentUploaded(added: Attachment[]) {
+  attachmentUploaded(added: GoogleStorageReference[]) {
     this.attachments = [...this.attachments, ...added];
   }
 
-  attachmentDeleted(removed: Attachment) {
+  attachmentDeleted(removed: GoogleStorageReference) {
     const files = this.attachments;
 
     const index = files.indexOf(removed);
@@ -127,5 +127,4 @@ export class ClaimFormComponent {
     }
 
   }
-
 }

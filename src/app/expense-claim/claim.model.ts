@@ -1,4 +1,4 @@
-import { Attachment } from "../shared/components/file-upload/file-upload.model";
+import { GoogleStorageReference } from "../shared/components/file-upload/google-storage-ref.model";
 
 export const claimSources = ['Internal', 'External'] as const;
 export type ClaimSource = typeof claimSources[number];
@@ -15,7 +15,7 @@ export interface Claim {
     name: string;
     email: string;
     amount: number;
-    attachments: Attachment[];
+    attachments: GoogleStorageReference[];
     state: ClaimState;
     bankAccountHolder: string;
     bankAccountNo: number;

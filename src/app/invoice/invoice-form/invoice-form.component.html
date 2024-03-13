@@ -48,7 +48,7 @@
       </mat-form-field>
 
       <div class="indented">
-         <app-upload-button (uploaded)="attachmentUploaded($event)"></app-upload-button>
+         <app-google-storage-upload (uploaded)="attachmentUploaded($event)"></app-google-storage-upload>
 
          <app-upload-list [files]="attachments" [canDelete]="!invoice()"
             (deleted)="attachmentDeleted($event)"></app-upload-list>

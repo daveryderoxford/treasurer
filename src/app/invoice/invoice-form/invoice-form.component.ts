@@ -11,8 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexModule } from '@ngbracket/ngx-layout';
 import { take } from 'rxjs';
-import { Attachment } from '../../shared/components/file-upload/file-upload.model';
-import { UploadButtonComponent } from '../../shared/components/file-upload/upload-button/upload-button.component';
+import { GoogleStorageReference } from '../../shared/components/file-upload/google-storage-ref.model';
+import { GggoleStorageUploadComponent } from '../../shared/components/file-upload/google-storage-upload-button';
 import { UploadListComponent } from '../../shared/components/file-upload/upload-list/upload-list.component';
 import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
@@ -22,7 +22,7 @@ import { Invoice, invoiceStates } from '../invoice.model';
 @Component({
   selector: 'app-invoice-form',
   standalone: true,
-  imports: [FormContainerComponent, FlexModule, MatDividerModule, UploadListComponent, UploadButtonComponent, ToolbarComponent, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
+  imports: [FormContainerComponent, FlexModule, MatDividerModule, UploadListComponent, GggoleStorageUploadComponent, ToolbarComponent, TextFieldModule, MatExpansionModule, MatOptionModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './invoice-form.component.html',
   styleUrl: './invoice-form.component.scss'
 })
@@ -46,7 +46,7 @@ export class InvoiceFormComponent {
     bankSortCode: new FormControl('', { validators: [sortCodeValidator] }),
     state: new FormControl('', Validators.required),
     reason: new FormControl(''),
-    attachments: new FormControl<Attachment[]>([], { nonNullable: true })
+    attachments: new FormControl<GoogleStorageReference[]>([], { nonNullable: true })
   });
 
   constructor(private _ngZone: NgZone) {
@@ -58,18 +58,18 @@ export class InvoiceFormComponent {
   }
 
   /** Get/set the attachments from the form control */
-  get attachments(): Attachment[] {
+  get attachments(): GoogleStorageReference[] {
     return this.form.controls.attachments.getRawValue();
   }
-  set attachments(value: Attachment[]) {
+  set attachments(value: GoogleStorageReference[]) {
     this.form.controls.attachments.setValue(value);
   }
 
-  attachmentUploaded(added: Attachment[]) {
+  attachmentUploaded(added: GoogleStorageReference[]) {
     this.attachments = [...this.attachments, ...added];
   }
 
-  attachmentDeleted(removed: Attachment) {
+  attachmentDeleted(removed: GoogleStorageReference) {
     const files = this.attachments;
 
     const index = files.indexOf(removed);

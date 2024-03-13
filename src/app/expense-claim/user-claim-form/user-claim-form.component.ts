@@ -5,24 +5,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexModule } from '@ngbracket/ngx-layout';
 import { take } from 'rxjs';
-import { Attachment } from '../../shared/components/file-upload/file-upload.model';
-import { UploadButtonComponent } from '../../shared/components/file-upload/upload-button/upload-button.component';
+import { GoogleStorageReference } from '../../shared/components/file-upload/google-storage-ref.model';
+import { GggoleStorageUploadComponent } from '../../shared/components/file-upload/google-storage-upload-button';
 import { UploadListComponent } from '../../shared/components/file-upload/upload-list/upload-list.component';
 import { FormContainerComponent } from '../../shared/components/form-container/form-container.component';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
-import { Claim } from '../claim.model';
-import { MatDividerModule } from '@angular/material/divider';
 import { currencyValidator } from '../../shared/validators';
+import { Claim } from '../claim.model';
 
 @Component({
   selector: 'app-user-claim-form',
   standalone: true,
-  imports: [FormContainerComponent, UploadListComponent, UploadButtonComponent, ToolbarComponent, FlexModule, MatDividerModule,TextFieldModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatOptionModule, MatButtonModule],
+  imports: [FormContainerComponent, UploadListComponent, GggoleStorageUploadComponent, ToolbarComponent, FlexModule, MatDividerModule,TextFieldModule, MatCardModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatSelectModule, MatOptionModule, MatButtonModule],
   templateUrl: './user-claim-form.component.html',
   styleUrl: './user-claim-form.component.scss'
 })
@@ -36,7 +36,7 @@ export class UserClaimFormComponent {
   form = new FormGroup({
     amount: new FormControl<number | null>(null, { validators: [currencyValidator, Validators.required] }),
     description: new FormControl('', { validators: [Validators.required] }),
-    attachments: new FormControl<Attachment[]>([], { nonNullable: true })
+    attachments: new FormControl<GoogleStorageReference[]>([], { nonNullable: true })
   });
 
   constructor(private _ngZone: NgZone) {
@@ -48,18 +48,18 @@ export class UserClaimFormComponent {
   }
 
   /** Get/set the attachments from the form control */
-  get attachments(): Attachment[] {
+  get attachments(): GoogleStorageReference[] {
     return this.form.controls.attachments.getRawValue();
   }
-  set attachments(value: Attachment[]) {
+  set attachments(value: GoogleStorageReference[]) {
     this.form.controls.attachments.setValue(value);
   }
 
-  attachmentUploaded(added: Attachment[]) {
+  attachmentUploaded(added: GoogleStorageReference[]) {
     this.attachments = [...this.attachments, ...added];
   }
 
-  attachmentDeleted(removed: Attachment) {
+  attachmentDeleted(removed: GoogleStorageReference) {
     const files = this.attachments;
 
     const index = files.indexOf(removed);

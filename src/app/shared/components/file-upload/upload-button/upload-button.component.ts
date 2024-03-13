@@ -1,13 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Attachment } from '../file-upload.model';
-import { FileUploadService } from '../file-upload.service';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AuthService } from '../../../../auth/auth.service';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltip } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-upload-button',
@@ -18,34 +15,28 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class UploadButtonComponent {
 
-  busy: boolean = false;
+  /** set to true to disable button and display progress bar */
+  busy = input(false);
+  multipleFiles = input<boolean>(true);
 
-  @Output() uploaded = new EventEmitter<Attachment[]>();
+  @Output() files = new EventEmitter<File[]>();
 
-  constructor(private uploadService: FileUploadService,
-    private as: AuthService) { }
+  constructor() { }
 
   async upload(event: any): Promise<void> {
 
     const selectedFiles: FileList = event.target.files;
 
-    let attachments: Attachment[] = [];
+    const files: File[] = [];
 
-    try {
-      this.busy = true;
-
-      attachments = await this.uploadService.pushFileToStorage(
-         selectedFiles, 'claims', 
-         this.as.user()!.uid
-      );
-    } finally {
-      this.busy = false;
+    for (let index = 0; index < selectedFiles.length; index++) {
+      files.push(selectedFiles[index]);
     }
 
-    this.uploaded.emit(attachments);
+    this.files.emit(files);
   }
 
-  // Reyu tooltip text from a function to support multi-line
+  // Return tooltip text from a function to support multi-line
   getTooltipText(): string {
     return `Image or pdf.  
     For emails, print using 'Save to PDF'

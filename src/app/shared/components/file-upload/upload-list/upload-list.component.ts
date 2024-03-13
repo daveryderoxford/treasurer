@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Output, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { Attachment } from '../file-upload.model';
-import { FileUploadService } from '../file-upload.service';
+import { GoogleStorageReference } from '../google-storage-ref.model';
+import { GoogleStorageService } from '../googleStorage.service';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -14,14 +14,14 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class UploadListComponent {
 
-  files = input<Attachment[]>([]);
+  files = input<GoogleStorageReference[]>([]);
   canDelete = input<boolean>(true);
 
-  @Output() deleted = new EventEmitter<Attachment>();
+  @Output() deleted = new EventEmitter<GoogleStorageReference>();
       
-  constructor(public uploadService: FileUploadService) {  }
+  constructor(public uploadService: GoogleStorageService) {  }
 
-  deleteFileUpload(fileUpload: Attachment): void {
+  deleteFileUpload(fileUpload: GoogleStorageReference): void {
     this.deleted.emit(fileUpload);
     this.uploadService.deleteFile(fileUpload);
   }
