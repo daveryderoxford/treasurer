@@ -1,7 +1,8 @@
-import { Injectable, Signal, computed, signal } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
+import { isAwaitingPayment } from '../expense-claim/claim.model';
 import { ClaimService } from '../expense-claim/claim.service';
-import { Claim, isAwaitingPayment } from '../expense-claim/claim.model';
-import { ReconciliationResult, BankTransaction, ReconcilationDataStatus, TransactionType, transactionTypes } from './reconcilation.model';
+import { BankTransaction, ReconcilationDataStatus, ReconciliationResult, TransactionType, transactionTypes } from './reconcilation.model';
+import { parse } from "date-fns";
 
 @Injectable({
    providedIn: 'root'
@@ -10,56 +11,60 @@ export class ReconciliationService {
 
    results = signal<ReconciliationResult[]>([]);
 
-   billPaymentResults = computed( () => this.results().filter( res => res.type === 'BBP'));
+   billPaymentResults = computed(() => this.results().filter(res => res.type === 'BBP'));
 
    constructor(private cs: ClaimService) { }
 
    private typeFromMemo(memo: string): TransactionType {
-      const str = memo.substring(memo.length - 3);
+      const str = memo.substring(memo.length - 3).trim();
       if (transactionTypes.includes(str as TransactionType)) {
          return str as TransactionType;
       } else {
-         console.log('ReconcilationService: Unexpected transaction type encountered');
-         return 'Other'
+         return 'Other';
       }
    }
 
    async readTransactionCSV(file: File): Promise<void> {
       const data = await file.text();
-      const r =  this.parseTransactionCSV(data);
-    //  this.results.set(r);
+      const r = this.parseTransactionCSV(data);
+      console.log(r);
+      const res = this.defaultReconcilation(r);
+      this.results.set(res);
    }
 
    /** Parse CSV transaction export from Barclays */
-    parseTransactionCSV(data: string): BankTransaction[] {
+   parseTransactionCSV(data: string): BankTransaction[] {
 
       const lines = data.split('\n');
-
-      // slice(1) to skip header row
-      return lines.slice(1).map((line, index) => {
-         const data = line.split(',');
-         const bankdetails = data[2].split(' ');
-         try {
-            return {
-               number: data[0],
-               date: new Date(data[1]),
-               sortCode: bankdetails[0],
-               ac: parseInt(bankdetails[1]),
-               amount: parseFloat(data[3]),
-               subcategory: data[4],
-               memo: data[5],
-               type: this.typeFromMemo(data[5])
-            };
-         } catch (e: any) {
-            console.error("Error parsing bank transaction  line: " + index + '  data:   '
-               + line + '\n' + e.toString());
-            throw (e);
-         }
-      });
+    
+      return lines
+         .slice(1)                                      // slice(1) to skip header row
+         .filter(line => line && line.trim() !== '')    // Filter out empty rows
+         .map((line, index) => {
+            try {
+               const data = line.trim().split(',');
+               const bankdetails = data[2].split(' ');
+               const trans = {
+                  number: data[0],
+                  date: parse(data[1], 'dd/MM/yyyy', new Date()),
+                  sortCode: bankdetails[0],
+                  ac: parseInt(bankdetails[1]),
+                  amount: parseFloat(data[3]),
+                  subcategory: data[4],
+                  memo: data[5],
+                  type: this.typeFromMemo(data[5])
+               };
+               return trans;
+            } catch (e: any) {
+               console.error("Error parsing bank transaction line: " + (index+1).toString() + '  data:   '
+                  + line + '\n' + e.toString());
+               throw (e);
+            }
+         });
    }
 
    /** Reconcile bank transactions with claims.  */
-   reconcile(inputTransactions: BankTransaction[]) {
+   defaultReconcilation(inputTransactions: BankTransaction[]): ReconciliationResult[] {
 
       let status: ReconcilationDataStatus;
 
@@ -112,6 +117,7 @@ export class ReconciliationService {
             }
          }
       }
+      return transactions;
    }
 
    /** Saves reconciled claim data for all bank transactions */
@@ -124,12 +130,12 @@ export class ReconciliationService {
    }
 
    /** Saves reconciled transactiuon data to cloud storage 
-    * the data file is named */ 
+    * the data file is named */
    saveTransactions() {
-      const data = this.results().map( trans => {
-         return 
+      const data = this.results().map(trans => {
+         return;
       });
-      
+
 
    }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ToolbarComponent } from '../../shared/components/toolbar.component';
 import { ReconciliationService } from '../reconcilation.service';
 import { UploadButtonComponent } from '../../shared/components/file-upload/upload-button/upload-button.component';
@@ -13,14 +13,20 @@ import { ResolutionListComponent } from '../reconcilation-list/reconcilationlist
 })
 export class ReconcilationComponent {
 
-  constructor(public rs: ReconciliationService) {}
+  constructor(public rs: ReconciliationService) { }
 
-  uploadfile() {
-    
-  }
+  busy = signal(false);
 
-  resolve() {
+  async uploadfile(files: File[]) {
 
+    if (files.length === 0) return;
+
+    try {
+      this.busy.set(true);
+      await this.rs.readTransactionCSV(files[0]);
+    } finally {
+      this.busy.set(false);
+    }
   }
 
 }

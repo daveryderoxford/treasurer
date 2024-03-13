@@ -2,7 +2,7 @@
 <app-toolbar title="Claim Resolution"></app-toolbar>
 
 <div fxFlexLayout="column">
-    <app-upload-button></app-upload-button>
+    <app-upload-button (files)="uploadfile($event)" [busy]="busy()"></app-upload-button>
     <app-reconcilation-list [results]="rs.results()"></app-reconcilation-list>
 </div>
 
