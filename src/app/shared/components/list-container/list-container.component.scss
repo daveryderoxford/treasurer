@@ -7,10 +7,11 @@ $screen-background: mat.get-theme-color(s.$theme, surface-container-highest );
 $list-background: mat.get-theme-color(s.$theme,surface-container );
 
 .list-container {
-   max-width: 800px !important;
+   max-width: 600px !important;
    width: 100vw !important;
    min-width: none;
    background-color: $list-background;
+   height: 100%;
 }
 
 .screen-bg {

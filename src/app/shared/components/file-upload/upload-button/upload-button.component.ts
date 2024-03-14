@@ -15,9 +15,9 @@ import { MatTooltip } from '@angular/material/tooltip';
 })
 export class UploadButtonComponent {
 
-  /** set to true to disable button and display progress bar */
-  busy = input(false);
   multipleFiles = input<boolean>(true);
+  title = input('Add attachments');
+  busy = input(false);
 
   @Output() files = new EventEmitter<File[]>();
 

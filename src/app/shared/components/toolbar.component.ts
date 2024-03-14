@@ -1,17 +1,18 @@
 import { Component, booleanAttribute, input } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { AuthButtonComponent } from '../../auth/auth-button/auth-button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { AuthButtonComponent } from '../../auth/auth-button/auth-button.component';
 import { TreasurerButtonComponent } from '../../treasurer/treasurer-button/treasurer-button.component';
+import { BackButtonDirective } from './back-button/back-button.direcrtive';
 
 @Component({
     selector: 'app-toolbar',
     template: `
 <mat-toolbar class=app-toolbar>
    @if (showBack()) {
-      <button [routerLink]="['/']" mat-icon-button>
+      <button mat-icon-button navigateBack>
         <mat-icon>arrow_back</mat-icon>
       </button>
    }
@@ -22,12 +23,11 @@ import { TreasurerButtonComponent } from '../../treasurer/treasurer-button/treas
 </mat-toolbar>
     `,
     standalone: true,
-    imports: [TreasurerButtonComponent, MatToolbarModule, AuthButtonComponent, MatButtonModule, MatIconModule, RouterModule],
+    imports: [TreasurerButtonComponent, BackButtonDirective,  MatToolbarModule, AuthButtonComponent, MatButtonModule, MatIconModule, RouterModule],
     styles: ['.spacer { flex: 1 1 auto; }']
 
 })
 export class ToolbarComponent {
-
 
     title = input('');
 

@@ -1,6 +1,10 @@
 import { Claim } from '../expense-claim/claim.model';
 
-export interface BankTransaction {
+export const transactionTypes = ['BBP', 'BGC', 'DDR', 'FT', 'BG', 'ATM', 'Other'] as const;
+export type TransactionType = typeof transactionTypes[number];
+
+export interface BankLineItem {
+   id: string;
    number: string;
    date: Date;
    ac: number;
@@ -8,15 +12,13 @@ export interface BankTransaction {
    amount: number;
    subcategory: string;
    memo: string;
+   type: TransactionType;
 }
 
 export type ReconcilationDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect' | 'AlreadyPaid';
 
-export const transactionTypes = ['BBP', 'BGC', 'DDR', 'FT', 'BG', 'ATM', 'Other'] as const;
-export type TransactionType = typeof transactionTypes[number];
-
-export interface ReconciliationResult extends BankTransaction {
+/** Reconciled transaction */
+export interface Transaction extends BankLineItem {
    claims: Claim[];
    status: ReconcilationDataStatus;
-   type: TransactionType;
 }

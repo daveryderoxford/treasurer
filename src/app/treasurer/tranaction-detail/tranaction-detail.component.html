@@ -1,0 +1,38 @@
+<app-toolbar title="Transaction details"></app-toolbar>
+
+<app-list-container>
+   <mat-list>
+      <h3 matSubheader>Details</h3>
+
+      <mat-list-item>
+         <span matListItemTitle>
+            <span class="gap">{{transaction().date | date}}</span>
+            <span class="gap">{{transaction().ac.toString()}}</span>
+            <span>£{{transaction().amount}}</span>
+         </span>
+         <span matListItemLine>
+            <span class="gap">Status: <b>{{transaction().status}}</b></span>
+            <span>{{transaction().claims.length}} expense claims</span>
+         </span>
+         <span matListItemLine>{{transaction().memo}}</span>
+
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <span fxLayout="row">
+         <b matSubheader>Claims</b>
+         <span class="spacer"></span>
+         <button mat-icon-button MatListItemMeta>
+            <mat-icon>add</mat-icon>
+         </button>
+      </span>
+
+      @for (claim of transaction().claims; track claim.id) {
+      <app-claim-list-item [claim]="claim" (edit)="edit($event)"></app-claim-list-item>
+      } @empty {
+         <mat-list-item matListItemTitle>No claims added yet</mat-list-item>
+      }
+   </mat-list>
+
+</app-list-container>

@@ -2,7 +2,7 @@
 
   <button mat-raised-button type=button [disabled]="busy()" [matTooltip]="getTooltipText()" (click)="fileInput.click()">
     <mat-icon>upload</mat-icon>
-    Add attachments
+    {{title()}}
   </button>
   @if (busy()) {
      <mat-progress-bar mode="indeterminate" class=""></mat-progress-bar>

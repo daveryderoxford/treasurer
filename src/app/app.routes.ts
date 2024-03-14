@@ -9,6 +9,7 @@ import { claimGuard } from './expense-claim/claim.guard';
 import { InvoiceListComponent } from './invoice/invoice-list/invoice-list.component';
 import { InvoiceAddComponent } from './invoice/invoice-add.component';
 import { InvoiceEditComponent } from './invoice/invoice-edit.component';
+import { TranactionDetailComponent } from './treasurer/tranaction-detail/tranaction-detail.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/claims', pathMatch: 'full' },
@@ -22,6 +23,8 @@ export const routes: Routes = [
 
     { path: "treasurer", canActivate: [AuthGuard], children: [
         { path: "reconcilation", component: ReconcilationComponent, title: 'Bank reconcilation' },
+        { path: "transactions/edit/:id", component: TranactionDetailComponent, canDeactivate: [PendingChangesGuard], title: 'Edit transaction' },
+
     ]},
     { path: "auth", loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
     { path: "user", loadChildren: () => import('./user/user.module').then(m => m.UserModule) },

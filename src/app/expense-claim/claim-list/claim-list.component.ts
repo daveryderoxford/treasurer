@@ -27,7 +27,7 @@ function filterClaim(claim: Claim, filter: string): boolean {
 @Component({
   selector: 'app-claim-list',
   standalone: true,
-  imports: [CommonModule, ListContainerComponent, ClaimListItemComponent, AuthButtonComponent, ClaimSummaryComponent, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink, MatListModule, MatIconModule, ToolbarComponent],
+  imports: [CommonModule, ListContainerComponent, ListContainerComponent, ClaimListItemComponent, AuthButtonComponent, ClaimSummaryComponent, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink, MatListModule, MatIconModule, ToolbarComponent],
   templateUrl: './claim-list.component.html',
   styleUrl: './claim-list.component.scss'
 })

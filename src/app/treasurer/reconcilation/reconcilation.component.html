@@ -1,9 +1,16 @@
 @defer {
-<app-toolbar title="Claim Resolution"></app-toolbar>
+<app-toolbar title="Reconcilation">
+    <span class="spacer"></span>
+    @if (rs.inProgress) {
+    <button mat-button (click)="save()">Save</button>
+    <button mat-button (click)="cancel()">Cancel</button>
+    } @else {
+    <app-upload-button (files)="uploadfile($event)" [busy]="busy()" title="Select file"></app-upload-button>
+    }
 
-<div fxFlexLayout="column">
-    <app-upload-button (files)="uploadfile($event)" [busy]="busy()"></app-upload-button>
-    <app-reconcilation-list [results]="rs.results()"></app-reconcilation-list>
-</div>
+</app-toolbar>
 
+<app-list-container>
+    <app-reconcilation-list [transactions]="rs.transactions()"></app-reconcilation-list>
+</app-list-container>
 }
