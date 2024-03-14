@@ -1,5 +1,5 @@
 @defer {
-<app-toolbar title="IBRSC - Invoices" showBack="false">
+<app-toolbar title="Invoices" showBack="false">
    <a mat-flat-button [routerLink]="['/invoices/add']">
       <mat-icon>add</mat-icon> New
    </a>
@@ -35,7 +35,7 @@
          </span>
          <span matListItemLine> {{invoice.description}}</span>
 
-         <button mat-icon-button matListItemMeta color="primary" (click)="edit(invoice)">
+         <button mat-icon-button matListItemMeta (click)="edit(invoice)">
             <mat-icon>edit</mat-icon>
          </button>
       
