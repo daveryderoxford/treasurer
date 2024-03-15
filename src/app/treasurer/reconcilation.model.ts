@@ -15,10 +15,11 @@ export interface BankLineItem {
    type: TransactionType;
 }
 
-export type ReconcilationDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect' | 'AlreadyPaid';
+export type ReconcilationDataStatus = 'OK' | 'NotFound' | 'AmountIncorrect';
 
 /** Reconciled transaction */
 export interface Transaction extends BankLineItem {
    claims: Claim[];
    status: ReconcilationDataStatus;
+   reason: string;
 }

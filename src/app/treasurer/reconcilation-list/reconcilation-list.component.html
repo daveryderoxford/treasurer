@@ -9,7 +9,11 @@
       </span>
       <span matListItemLine>
          <span class="gap">Status: <b>{{trans.status}}</b></span>
+         @if (trans.reason !== '') {
+            <span class="gap">{{trans.reason}} expense claims</span>
+         }
          <span>{{trans.claims.length}} expense claims</span>
+
       </span>
       <span matListItemLine>{{trans.memo}}</span>
 

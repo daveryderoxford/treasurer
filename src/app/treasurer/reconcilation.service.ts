@@ -4,7 +4,6 @@ import { Claim, isAwaitingPayment } from '../expense-claim/claim.model';
 import { ClaimService } from '../expense-claim/claim.service';
 import { BankLineItem, ReconcilationDataStatus, Transaction, TransactionType, transactionTypes } from './reconcilation.model';
 
-
 interface RawTransaction extends BankLineItem {
    claimIds: string[];
 }
@@ -14,7 +13,7 @@ interface RawTransaction extends BankLineItem {
 })
 export class ReconciliationService {
 
-   /** Source transactions that contains the bank line items and list of claims */
+   /** Source transactions that contains the bank line items and list of claim ids */
    private rawTransactions = signal<RawTransaction[]>([]);
 
    /** Claims avaliable to be assigned against a transaction
@@ -27,12 +26,11 @@ export class ReconciliationService {
 
    transactions = computed(() => {
       const claims = this.cs.claims();
-      return this.rawTransactions()
-         .map(trans => this.makeTransaction(trans, claims));
+      return this.rawTransactions().map(raw => this.makeTransaction(raw, claims));
    });
 
-   /** Creates a transacton from a raw transaction by populationg claim from claim Ids 
-    * and calculating totals
+   /** Creates a transacton from a raw transaction by populationg claim data
+    * and calculating totals. 
    */
    private makeTransaction(raw: RawTransaction, allClaims: Claim[]): Transaction {
 
@@ -40,16 +38,22 @@ export class ReconciliationService {
 
       const total = transClaims.reduce((total, c) => total + c.amount, 0.0);
 
-      let status = 'Not Found';
+      let status: ReconcilationDataStatus = 'NotFound';
       if (transClaims.length > 0) {
          // Check the payment totals 
-         status = (raw.amount == total) ? 'OK' : 'AmountIncorrect';
+         status = (raw.amount === total) ? 'OK' : 'AmountIncorrect';
       }
 
+      let reason = '';
+      if (status === 'AmountIncorrect') {
+         reason = `Total of claims: ${total}.  Difference is: ${raw.amount - total}`
+      }
+      
       return {
          ...raw,
-         status: 'OK',
+         status: status,
          claims: transClaims,
+         reason: reason
       };
    }
 
@@ -137,7 +141,8 @@ export class ReconciliationService {
    /** Assign default claims to a bank line item. 
     * Assignment is as follows:
     *  1. Only consider Bill Payment (BBP transactions) 
-    *  2. 
+    *  2. If there is an unpaid transaction with matching amount then use it
+    *     ...otherwise assume all outstanding claims for the user are associated with the transaction.
    */
    private defaultReconcilation(lineItems: BankLineItem[]): RawTransaction[] {
 
@@ -174,30 +179,47 @@ export class ReconciliationService {
    }
 
    /** Saves reconciled claim data for all bank transactions */
-   private saveClaims() {
+   private async saveClaims() {
       for (const trans of this.transactions()) {
          for (const claim of trans.claims) {
-            // Update the cliam state here 
-            // TODO
-            this.cs.update(claim.id, claim);
+            claim.datePaid = new Date();
+
+            switch (trans.status) {
+               case 'OK':
+                  claim.reason = '';
+                  claim.state = 'Reconciled';
+                  break;
+               case 'NotFound':
+                  console.error('ReconcilationService: Unexpectly in not found state');
+                  break;
+               case 'AmountIncorrect':
+                  claim.state = 'Error';
+                  claim.reason = trans.reason;
+                  break;
+               default:
+                  break;
+            }
+            await this.cs.update(claim.id, claim);
          }
       }
    }
 
    /** Saves reconciled transactiuon data to cloud storage 
     * the data file is named */
-   private saveTransactions() {
+   private async saveTransactions() {
       const data = this.transactions().map(trans => {
          return;
       });
    }
 
-   save() {
-      this.saveClaims();
-      this.saveTransactions();
+   /** Save transaction data and reset */
+   async save() {
+      await this.saveClaims();
+      await this.saveTransactions();
       this.rawTransactions.set([]);
    }
 
+   /** Reset the trabsaction data without saving it. */
    cancel() {
      this.rawTransactions.set([]);
    }

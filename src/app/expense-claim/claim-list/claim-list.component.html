@@ -17,10 +17,9 @@
       @for (claim of filteredClaims(); track claim.id ){
       <app-claim-list-item [claim]="claim" (edit)="edit($event)"></app-claim-list-item>
       } @empty {
-      <span fxLayout="column" fxLayoutAlign="space-around center">
-         <p>No claims to display<p>
-         <p>Select 'New' to create an expense claim<p>
-      </span>
+      <mat-list-item matListItemTitle>
+         No claims to display
+      </mat-list-item>
       }
    </mat-list>
 </app-list-container>

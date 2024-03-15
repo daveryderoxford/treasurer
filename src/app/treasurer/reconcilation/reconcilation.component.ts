@@ -32,13 +32,12 @@ export class ReconcilationComponent {
     }
   }
   
-  save() {
-    this.rs.save();
+  async save() {
+    await this.rs.save();
   }
 
   cancel() {
     this.rs.cancel();
-
   }
 
   canDeactivate(): boolean {
